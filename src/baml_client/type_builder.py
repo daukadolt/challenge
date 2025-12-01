@@ -25,8 +25,9 @@ class TypeBuilder(type_builder.TypeBuilder):
             classes=set(
                 [
                     "Control",
-                    "Resume",
+                    "ControlEvaluationResult",
                     "Rule",
+                    "RuleEvaluation",
                 ]
             ),
             enums=set(
@@ -46,7 +47,7 @@ class TypeBuilder(type_builder.TypeBuilder):
         return RuleTypeViewer(self)
 
     # #########################################################################
-    # Generated classes 3
+    # Generated classes 4
     # #########################################################################
 
     @property
@@ -54,12 +55,16 @@ class TypeBuilder(type_builder.TypeBuilder):
         return ControlViewer(self)
 
     @property
-    def Resume(self) -> "ResumeViewer":
-        return ResumeViewer(self)
+    def ControlEvaluationResult(self) -> "ControlEvaluationResultViewer":
+        return ControlEvaluationResultViewer(self)
 
     @property
     def Rule(self) -> "RuleViewer":
         return RuleViewer(self)
+
+    @property
+    def RuleEvaluation(self) -> "RuleEvaluationViewer":
+        return RuleEvaluationViewer(self)
 
 
 # #########################################################################
@@ -115,7 +120,7 @@ class RuleTypeValues:
 
 
 # #########################################################################
-# Generated classes 3
+# Generated classes 4
 # #########################################################################
 
 
@@ -171,29 +176,28 @@ class ControlProperties:
         return type_builder.ClassPropertyViewer(self.__bldr.property("rules"))
 
 
-class ResumeAst:
+class ControlEvaluationResultAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb  # type: ignore (we know how to use this private attribute)
-        self._bldr = _tb.class_("Resume")
+        self._bldr = _tb.class_("ControlEvaluationResult")
         self._properties: typing.Set[str] = set(
             [
-                "name",
-                "email",
-                "experience",
-                "skills",
+                "overall_status",
+                "failing_rules",
+                "missing_evidence_rules",
             ]
         )
-        self._props = ResumeProperties(self._bldr, self._properties)
+        self._props = ControlEvaluationResultProperties(self._bldr, self._properties)
 
     def type(self) -> baml_py.FieldType:
         return self._bldr.field()
 
     @property
-    def props(self) -> "ResumeProperties":
+    def props(self) -> "ControlEvaluationResultProperties":
         return self._props
 
 
-class ResumeViewer(ResumeAst):
+class ControlEvaluationResultViewer(ControlEvaluationResultAst):
     def __init__(self, tb: type_builder.TypeBuilder):
         super().__init__(tb)
 
@@ -206,26 +210,24 @@ class ResumeViewer(ResumeAst):
         ]
 
 
-class ResumeProperties:
+class ControlEvaluationResultProperties:
     def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
         self.__bldr = bldr
         self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
 
     @property
-    def name(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("name"))
+    def overall_status(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("overall_status"))
 
     @property
-    def email(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("email"))
+    def failing_rules(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("failing_rules"))
 
     @property
-    def experience(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("experience"))
-
-    @property
-    def skills(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("skills"))
+    def missing_evidence_rules(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("missing_evidence_rules")
+        )
 
 
 class RuleAst:
@@ -288,3 +290,55 @@ class RuleProperties:
     @property
     def exceptions(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("exceptions"))
+
+
+class RuleEvaluationAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("RuleEvaluation")
+        self._properties: typing.Set[str] = set(
+            [
+                "rule_id",
+                "status",
+                "reasoning",
+            ]
+        )
+        self._props = RuleEvaluationProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "RuleEvaluationProperties":
+        return self._props
+
+
+class RuleEvaluationViewer(RuleEvaluationAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class RuleEvaluationProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def rule_id(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("rule_id"))
+
+    @property
+    def status(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("status"))
+
+    @property
+    def reasoning(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("reasoning"))

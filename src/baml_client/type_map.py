@@ -17,9 +17,11 @@ from . import stream_types
 type_map = {
     "types.Control": types.Control,
     "stream_types.Control": stream_types.Control,
-    "types.Resume": types.Resume,
-    "stream_types.Resume": stream_types.Resume,
+    "types.ControlEvaluationResult": types.ControlEvaluationResult,
+    "stream_types.ControlEvaluationResult": stream_types.ControlEvaluationResult,
     "types.Rule": types.Rule,
     "stream_types.Rule": stream_types.Rule,
+    "types.RuleEvaluation": types.RuleEvaluation,
+    "stream_types.RuleEvaluation": stream_types.RuleEvaluation,
     "types.RuleType": types.RuleType,
 }

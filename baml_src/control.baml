@@ -170,3 +170,50 @@ This policy is reviewed quarterly and updated as needed based on:
         "#
     }
 }
+
+class RuleEvaluation {
+    rule_id string @description("The ID of the rule being checked (e.g., 'COV-01', 'CR-02').")
+    
+    // Status can be PASS, FAIL, or N/A (Not Applicable/Insufficient Evidence)
+    status string @description("One of: 'PASS', 'FAIL', 'N/A'. Use 'N/A' if the image does not contain enough evidence to confirm PASS or FAIL.")
+    
+    // Optional explanation of the status
+    reasoning string @description("Brief explanation of why the status was assigned. e.g., 'Coverage report shows 75% for new code.'")
+}
+
+class ControlEvaluationResult {
+    overall_status string @description("The final aggregated status for the entire control: 'PASS', 'FAIL', or 'NEEDS_MORE_INFO'.")
+    failing_rules RuleEvaluation[] @description("A list of RuleEvaluation objects where status is 'FAIL'.")
+    missing_evidence_rules RuleEvaluation[] @description("A list of RuleEvaluation objects where status is 'N/A'.")
+}
+
+function EvaluateImage(img: image, control: Control) -> ControlEvaluationResult {
+    client "openai/gpt-4o" 
+    prompt #"
+        You are an automated Compliance Auditor. Your task is to analyze the provided image (evidence) 
+        and check if it provides sufficient information to PASS or FAIL the compliance rules listed below.
+        
+        The image may contain partial, or full evidence for a rule. If the evidence is missing, mark the rule as 'N/A'.
+
+        ---
+        ## Compliance Rules (Extracted from Policy: {{ control.name }})
+        
+        Review the list of rules and their logic:
+        {% for rule in control.rules %}
+        - Rule ID: {{ rule.id }} (Type: {{ rule.type }})
+          Description: {{ rule.description }}
+          Logic: {{ rule.logic }}
+          Exceptions: {{ rule.exceptions | join(', ') }}
+        {% endfor %}
+        
+        ---
+        
+        Analyze the image and output an array of RuleEvaluation objects ONLY for the rules where the image provides sufficient information to assign PASS, FAIL, or confirm an exception.
+        
+        {{ _.role("user") }}
+        Image Evidence:
+        {{ img }}
+
+        {{ ctx.output_format }}
+    "#
+}

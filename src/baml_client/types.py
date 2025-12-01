@@ -54,7 +54,7 @@ class RuleType(str, Enum):
 
 
 # #########################################################################
-# Generated classes (3)
+# Generated classes (4)
 # #########################################################################
 
 
@@ -64,11 +64,10 @@ class Control(BaseModel):
     rules: typing.List["Rule"]
 
 
-class Resume(BaseModel):
-    name: str
-    email: str
-    experience: typing.List[str]
-    skills: typing.List[str]
+class ControlEvaluationResult(BaseModel):
+    overall_status: str
+    failing_rules: typing.List["RuleEvaluation"]
+    missing_evidence_rules: typing.List["RuleEvaluation"]
 
 
 class Rule(BaseModel):
@@ -77,6 +76,12 @@ class Rule(BaseModel):
     description: str
     logic: str
     exceptions: typing.List[str]
+
+
+class RuleEvaluation(BaseModel):
+    rule_id: str
+    status: str
+    reasoning: str
 
 
 # #########################################################################

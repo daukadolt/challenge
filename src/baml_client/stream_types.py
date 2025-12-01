@@ -27,7 +27,7 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
 
 
 # #########################################################################
-# Generated classes (3)
+# Generated classes (4)
 # #########################################################################
 
 
@@ -37,11 +37,10 @@ class Control(BaseModel):
     rules: typing.List["Rule"]
 
 
-class Resume(BaseModel):
-    name: typing.Optional[str] = None
-    email: typing.Optional[str] = None
-    experience: typing.List[str]
-    skills: typing.List[str]
+class ControlEvaluationResult(BaseModel):
+    overall_status: typing.Optional[str] = None
+    failing_rules: typing.List["RuleEvaluation"]
+    missing_evidence_rules: typing.List["RuleEvaluation"]
 
 
 class Rule(BaseModel):
@@ -50,6 +49,12 @@ class Rule(BaseModel):
     description: typing.Optional[str] = None
     logic: typing.Optional[str] = None
     exceptions: typing.List[str]
+
+
+class RuleEvaluation(BaseModel):
+    rule_id: typing.Optional[str] = None
+    status: typing.Optional[str] = None
+    reasoning: typing.Optional[str] = None
 
 
 # #########################################################################

@@ -88,6 +88,35 @@ class BamlAsyncClient:
     def parse_stream(self):
         return self.__llm_stream_parser
 
+    async def EvaluateImage(
+        self,
+        img: baml_py.Image,
+        control: types.Control,
+        baml_options: BamlCallOptions = {},
+    ) -> types.ControlEvaluationResult:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            # Use streaming internally when on_tick is provided
+            stream = self.stream.EvaluateImage(
+                img=img, control=control, baml_options=baml_options
+            )
+            return await stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = await self.__options.merge_options(
+                baml_options
+            ).call_function_async(
+                function_name="EvaluateImage",
+                args={
+                    "img": img,
+                    "control": control,
+                },
+            )
+            return typing.cast(
+                types.ControlEvaluationResult,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
     async def ExtractControl(
         self,
         control: str,
@@ -115,37 +144,42 @@ class BamlAsyncClient:
                 result.cast_to(types, types, stream_types, False, __runtime__),
             )
 
-    async def ExtractResume(
-        self,
-        resume: str,
-        baml_options: BamlCallOptions = {},
-    ) -> types.Resume:
-        # Check if on_tick is provided
-        if "on_tick" in baml_options:
-            # Use streaming internally when on_tick is provided
-            stream = self.stream.ExtractResume(resume=resume, baml_options=baml_options)
-            return await stream.get_final_response()
-        else:
-            # Original non-streaming code
-            result = await self.__options.merge_options(
-                baml_options
-            ).call_function_async(
-                function_name="ExtractResume",
-                args={
-                    "resume": resume,
-                },
-            )
-            return typing.cast(
-                types.Resume,
-                result.cast_to(types, types, stream_types, False, __runtime__),
-            )
-
 
 class BamlStreamClient:
     __options: DoNotUseDirectlyCallManager
 
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
+
+    def EvaluateImage(
+        self,
+        img: baml_py.Image,
+        control: types.Control,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[
+        stream_types.ControlEvaluationResult, types.ControlEvaluationResult
+    ]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
+            function_name="EvaluateImage",
+            args={
+                "img": img,
+                "control": control,
+            },
+        )
+        return baml_py.BamlStream[
+            stream_types.ControlEvaluationResult, types.ControlEvaluationResult
+        ](
+            result,
+            lambda x: typing.cast(
+                stream_types.ControlEvaluationResult,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.ControlEvaluationResult,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
 
     def ExtractControl(
         self,
@@ -170,35 +204,30 @@ class BamlStreamClient:
             ctx,
         )
 
-    def ExtractResume(
-        self,
-        resume: str,
-        baml_options: BamlCallOptions = {},
-    ) -> baml_py.BamlStream[stream_types.Resume, types.Resume]:
-        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
-            function_name="ExtractResume",
-            args={
-                "resume": resume,
-            },
-        )
-        return baml_py.BamlStream[stream_types.Resume, types.Resume](
-            result,
-            lambda x: typing.cast(
-                stream_types.Resume,
-                x.cast_to(types, types, stream_types, True, __runtime__),
-            ),
-            lambda x: typing.cast(
-                types.Resume, x.cast_to(types, types, stream_types, False, __runtime__)
-            ),
-            ctx,
-        )
-
 
 class BamlHttpRequestClient:
     __options: DoNotUseDirectlyCallManager
 
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
+
+    async def EvaluateImage(
+        self,
+        img: baml_py.Image,
+        control: types.Control,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="EvaluateImage",
+            args={
+                "img": img,
+                "control": control,
+            },
+            mode="request",
+        )
+        return result
 
     async def ExtractControl(
         self,
@@ -211,22 +240,6 @@ class BamlHttpRequestClient:
             function_name="ExtractControl",
             args={
                 "control": control,
-            },
-            mode="request",
-        )
-        return result
-
-    async def ExtractResume(
-        self,
-        resume: str,
-        baml_options: BamlCallOptions = {},
-    ) -> baml_py.baml_py.HTTPRequest:
-        result = await self.__options.merge_options(
-            baml_options
-        ).create_http_request_async(
-            function_name="ExtractResume",
-            args={
-                "resume": resume,
             },
             mode="request",
         )
@@ -239,6 +252,24 @@ class BamlHttpStreamRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
+    async def EvaluateImage(
+        self,
+        img: baml_py.Image,
+        control: types.Control,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="EvaluateImage",
+            args={
+                "img": img,
+                "control": control,
+            },
+            mode="stream",
+        )
+        return result
+
     async def ExtractControl(
         self,
         control: str,
@@ -250,22 +281,6 @@ class BamlHttpStreamRequestClient:
             function_name="ExtractControl",
             args={
                 "control": control,
-            },
-            mode="stream",
-        )
-        return result
-
-    async def ExtractResume(
-        self,
-        resume: str,
-        baml_options: BamlCallOptions = {},
-    ) -> baml_py.baml_py.HTTPRequest:
-        result = await self.__options.merge_options(
-            baml_options
-        ).create_http_request_async(
-            function_name="ExtractResume",
-            args={
-                "resume": resume,
             },
             mode="stream",
         )
