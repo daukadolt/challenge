@@ -18,18 +18,24 @@ import baml_py
 
 from . import types
 
-StreamStateValueT = typing.TypeVar('StreamStateValueT')
+StreamStateValueT = typing.TypeVar("StreamStateValueT")
+
+
 class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
     value: StreamStateValueT
     state: typing_extensions.Literal["Pending", "Incomplete", "Complete"]
+
+
 # #########################################################################
 # Generated classes (3)
 # #########################################################################
+
 
 class Control(BaseModel):
     name: typing.Optional[str] = None
     description: typing.Optional[str] = None
     rules: typing.List["Rule"]
+
 
 class Resume(BaseModel):
     name: typing.Optional[str] = None
@@ -37,10 +43,14 @@ class Resume(BaseModel):
     experience: typing.List[str]
     skills: typing.List[str]
 
+
 class Rule(BaseModel):
+    id: typing.Optional[str] = None
+    type: typing.Optional[types.RuleType] = None
     description: typing.Optional[str] = None
     logic: typing.Optional[str] = None
     exceptions: typing.List[str]
+
 
 # #########################################################################
 # Generated type aliases (0)

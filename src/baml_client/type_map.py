@@ -15,15 +15,11 @@ from . import stream_types
 
 
 type_map = {
-
     "types.Control": types.Control,
     "stream_types.Control": stream_types.Control,
-
     "types.Resume": types.Resume,
     "stream_types.Resume": stream_types.Resume,
-
     "types.Rule": types.Rule,
     "stream_types.Rule": stream_types.Rule,
-
-
+    "types.RuleType": types.RuleType,
 }

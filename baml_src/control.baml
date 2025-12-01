@@ -1,10 +1,33 @@
-class Rule {
-    description string
-    logic string @description(#"
-        Propositional Logic in string format
+// 1. Define types to distinguish between Merge Gates and Process/Audit checks
+enum RuleType {
+    Blocking @description(#"
+        Rules that must pass immediately before a merge or release.
+        Example: "All tests passed", "Coverage > 80%"
     "#)
+    Audit @description(#"
+        Maintenance or process rules that are measured over time, not per PR.
+        Example: "Flaky tests fixed within 2 days", "Quarterly policy review"
+    "#)
+}
+
+class Rule {
+    // Added ID for easier tracking in logs/UI
+    id string @description("Short identifier, e.g. 'TEST-01'")
+    
+    // Added type to solve the "Process vs Gate" risk
+    type RuleType
+    
+    description string
+    
+    // Updated description to solve "Ambiguity" and "Critical Path" risks
+    logic string @description(#"
+        Propositional Logic. Be explicit with variable values.
+        BAD: "CriticalPaths -> 100% Coverage"
+        GOOD: "FilePath.contains('security', 'payment') -> Coverage == 100%"
+    "#)
+    
     exceptions string[] @description(#"
-        cases when this logic can be skipped, if any
+        List of specific scenarios where this rule can be skipped.
     "#)
 }
 
@@ -15,9 +38,18 @@ class Control {
 }
 
 function ExtractControl(control: string) -> Control {
-    client "openai-responses/gpt-5-mini" // Set OPENAI_API_KEY to use this client.
+    client "openai-responses/gpt-5-mini" 
     prompt #"
-        Extract from this content:
+        Extract the control logic from the following content into a structured format.
+
+        Guidelines for Extraction:
+        1. **Atomic Rules**: Do not combine multiple thresholds into one logic string. 
+           - IF the text says "Unit coverage 80% and Integration coverage 60%"
+           - THEN create TWO separate rules.
+        2. **Explicit Logic**: If the text defines a term (e.g., "Critical Paths are payment and auth"), use the explicit values ('payment', 'auth') in the logic string, not the abstract term.
+        3. **Process vs Blocking**: Distinguish between rules that stop a release (Blocking) and rules regarding team habits/maintenance (Audit).
+
+        Content:
         {{ control }}
 
         {{ ctx.output_format }}

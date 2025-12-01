@@ -1,6 +1,8 @@
+from dotenv import load_dotenv
 from baml_client.sync_client import b
 from baml_client.types import Resume
 
+load_dotenv()
 
 def example(raw_resume: str) -> Resume:
     # BAML's internal parser guarantees ExtractResume

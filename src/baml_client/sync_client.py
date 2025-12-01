@@ -17,7 +17,10 @@ import baml_py
 from . import stream_types, types, type_builder
 from .parser import LlmResponseParser, LlmStreamParser
 from .runtime import DoNotUseDirectlyCallManager, BamlCallOptions
-from .globals import DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME as __runtime__
+from .globals import (
+    DO_NOT_USE_DIRECTLY_UNLESS_YOU_KNOW_WHAT_YOURE_DOING_RUNTIME as __runtime__,
+)
+
 
 class BamlSyncClient:
     __options: DoNotUseDirectlyCallManager
@@ -48,13 +51,20 @@ class BamlSyncClient:
         self.__llm_response_parser = LlmResponseParser(self.__options)
         self.__llm_stream_parser = LlmStreamParser(self.__options)
 
-    def with_options(self,
+    def with_options(
+        self,
         tb: typing.Optional[type_builder.TypeBuilder] = None,
         client_registry: typing.Optional[baml_py.baml_py.ClientRegistry] = None,
-        collector: typing.Optional[typing.Union[baml_py.baml_py.Collector, typing.List[baml_py.baml_py.Collector]]] = None,
+        collector: typing.Optional[
+            typing.Union[
+                baml_py.baml_py.Collector, typing.List[baml_py.baml_py.Collector]
+            ]
+        ] = None,
         env: typing.Optional[typing.Dict[str, typing.Optional[str]]] = None,
         tags: typing.Optional[typing.Dict[str, str]] = None,
-        on_tick: typing.Optional[typing.Callable[[str, baml_py.baml_py.FunctionLog], None]] = None,
+        on_tick: typing.Optional[
+            typing.Callable[[str, baml_py.baml_py.FunctionLog], None]
+        ] = None,
     ) -> "BamlSyncClient":
         options: BamlCallOptions = {}
         if tb is not None:
@@ -73,53 +83,69 @@ class BamlSyncClient:
 
     @property
     def stream(self):
-      return self.__stream_client
+        return self.__stream_client
 
     @property
     def request(self):
-      return self.__http_request
+        return self.__http_request
 
     @property
     def stream_request(self):
-      return self.__http_stream_request
+        return self.__http_stream_request
 
     @property
     def parse(self):
-      return self.__llm_response_parser
+        return self.__llm_response_parser
 
     @property
     def parse_stream(self):
-      return self.__llm_stream_parser
-    
-    def ExtractControl(self, control: str,
+        return self.__llm_stream_parser
+
+    def ExtractControl(
+        self,
+        control: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Control:
         # Check if on_tick is provided
-        if 'on_tick' in baml_options:
-            stream = self.stream.ExtractControl(control=control,
-                baml_options=baml_options)
+        if "on_tick" in baml_options:
+            stream = self.stream.ExtractControl(
+                control=control, baml_options=baml_options
+            )
             return stream.get_final_response()
         else:
             # Original non-streaming code
-            result = self.__options.merge_options(baml_options).call_function_sync(function_name="ExtractControl", args={
-                "control": control,
-            })
-            return typing.cast(types.Control, result.cast_to(types, types, stream_types, False, __runtime__))
-    def ExtractResume(self, resume: str,
+            result = self.__options.merge_options(baml_options).call_function_sync(
+                function_name="ExtractControl",
+                args={
+                    "control": control,
+                },
+            )
+            return typing.cast(
+                types.Control,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    def ExtractResume(
+        self,
+        resume: str,
         baml_options: BamlCallOptions = {},
     ) -> types.Resume:
         # Check if on_tick is provided
-        if 'on_tick' in baml_options:
-            stream = self.stream.ExtractResume(resume=resume,
-                baml_options=baml_options)
+        if "on_tick" in baml_options:
+            stream = self.stream.ExtractResume(resume=resume, baml_options=baml_options)
             return stream.get_final_response()
         else:
             # Original non-streaming code
-            result = self.__options.merge_options(baml_options).call_function_sync(function_name="ExtractResume", args={
-                "resume": resume,
-            })
-            return typing.cast(types.Resume, result.cast_to(types, types, stream_types, False, __runtime__))
-    
+            result = self.__options.merge_options(baml_options).call_function_sync(
+                function_name="ExtractResume",
+                args={
+                    "resume": resume,
+                },
+            )
+            return typing.cast(
+                types.Resume,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
 
 
 class BamlStreamClient:
@@ -128,31 +154,52 @@ class BamlStreamClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def ExtractControl(self, control: str,
+    def ExtractControl(
+        self,
+        control: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlSyncStream[stream_types.Control, types.Control]:
-        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(function_name="ExtractControl", args={
-            "control": control,
-        })
-        return baml_py.BamlSyncStream[stream_types.Control, types.Control](
-          result,
-          lambda x: typing.cast(stream_types.Control, x.cast_to(types, types, stream_types, True, __runtime__)),
-          lambda x: typing.cast(types.Control, x.cast_to(types, types, stream_types, False, __runtime__)),
-          ctx,
+        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
+            function_name="ExtractControl",
+            args={
+                "control": control,
+            },
         )
-    def ExtractResume(self, resume: str,
+        return baml_py.BamlSyncStream[stream_types.Control, types.Control](
+            result,
+            lambda x: typing.cast(
+                stream_types.Control,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.Control, x.cast_to(types, types, stream_types, False, __runtime__)
+            ),
+            ctx,
+        )
+
+    def ExtractResume(
+        self,
+        resume: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlSyncStream[stream_types.Resume, types.Resume]:
-        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(function_name="ExtractResume", args={
-            "resume": resume,
-        })
-        return baml_py.BamlSyncStream[stream_types.Resume, types.Resume](
-          result,
-          lambda x: typing.cast(stream_types.Resume, x.cast_to(types, types, stream_types, True, __runtime__)),
-          lambda x: typing.cast(types.Resume, x.cast_to(types, types, stream_types, False, __runtime__)),
-          ctx,
+        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
+            function_name="ExtractResume",
+            args={
+                "resume": resume,
+            },
         )
-    
+        return baml_py.BamlSyncStream[stream_types.Resume, types.Resume](
+            result,
+            lambda x: typing.cast(
+                stream_types.Resume,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.Resume, x.cast_to(types, types, stream_types, False, __runtime__)
+            ),
+            ctx,
+        )
+
 
 class BamlHttpRequestClient:
     __options: DoNotUseDirectlyCallManager
@@ -160,21 +207,34 @@ class BamlHttpRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def ExtractControl(self, control: str,
+    def ExtractControl(
+        self,
+        control: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
-        result = self.__options.merge_options(baml_options).create_http_request_sync(function_name="ExtractControl", args={
-            "control": control,
-        }, mode="request")
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractControl",
+            args={
+                "control": control,
+            },
+            mode="request",
+        )
         return result
-    def ExtractResume(self, resume: str,
+
+    def ExtractResume(
+        self,
+        resume: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
-        result = self.__options.merge_options(baml_options).create_http_request_sync(function_name="ExtractResume", args={
-            "resume": resume,
-        }, mode="request")
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractResume",
+            args={
+                "resume": resume,
+            },
+            mode="request",
+        )
         return result
-    
+
 
 class BamlHttpStreamRequestClient:
     __options: DoNotUseDirectlyCallManager
@@ -182,20 +242,33 @@ class BamlHttpStreamRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def ExtractControl(self, control: str,
+    def ExtractControl(
+        self,
+        control: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
-        result = self.__options.merge_options(baml_options).create_http_request_sync(function_name="ExtractControl", args={
-            "control": control,
-        }, mode="stream")
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractControl",
+            args={
+                "control": control,
+            },
+            mode="stream",
+        )
         return result
-    def ExtractResume(self, resume: str,
+
+    def ExtractResume(
+        self,
+        resume: str,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
-        result = self.__options.merge_options(baml_options).create_http_request_sync(function_name="ExtractResume", args={
-            "resume": resume,
-        }, mode="stream")
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractResume",
+            args={
+                "resume": resume,
+            },
+            mode="stream",
+        )
         return result
-    
+
 
 b = BamlSyncClient(DoNotUseDirectlyCallManager({}))

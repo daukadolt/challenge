@@ -20,34 +20,49 @@ from pydantic import BaseModel, ConfigDict
 
 import baml_py
 
-CheckT = typing_extensions.TypeVar('CheckT')
-CheckName = typing_extensions.TypeVar('CheckName', bound=str)
+CheckT = typing_extensions.TypeVar("CheckT")
+CheckName = typing_extensions.TypeVar("CheckName", bound=str)
+
 
 class Check(BaseModel):
     name: str
     expression: str
     status: str
+
+
 class Checked(BaseModel, typing.Generic[CheckT, CheckName]):
     value: CheckT
     checks: typing.Dict[CheckName, Check]
 
+
 def get_checks(checks: typing.Dict[CheckName, Check]) -> typing.List[Check]:
     return list(checks.values())
 
+
 def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
     return all(check.status == "succeeded" for check in get_checks(checks))
+
+
 # #########################################################################
-# Generated enums (0)
+# Generated enums (1)
 # #########################################################################
+
+
+class RuleType(str, Enum):
+    Blocking = "Blocking"
+    Audit = "Audit"
+
 
 # #########################################################################
 # Generated classes (3)
 # #########################################################################
 
+
 class Control(BaseModel):
     name: str
     description: str
     rules: typing.List["Rule"]
+
 
 class Resume(BaseModel):
     name: str
@@ -55,10 +70,14 @@ class Resume(BaseModel):
     experience: typing.List[str]
     skills: typing.List[str]
 
+
 class Rule(BaseModel):
+    id: str
+    type: RuleType
     description: str
     logic: str
     exceptions: typing.List[str]
+
 
 # #########################################################################
 # Generated type aliases (0)
