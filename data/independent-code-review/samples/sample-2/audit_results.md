@@ -6,29 +6,25 @@
 | :--- | :--- | :--- | :--- |
 | CR-01 | RuleType.Blocking | PASS | Validated via evidence |
 | CR-02 | RuleType.Blocking | PASS | Validated via evidence |
-| COV-UNIT-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| COV-INTEG-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| COV-CRIT-PAYMENT-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| COV-CRIT-AUTH-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| COV-CRIT-SEC-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| COV-BRANCH-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| COV-FUNC-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| REPORT-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| TST-UNIT-RUN-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| TST-INTEG-RUN-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| TST-E2E-RUN-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| TST-PERF-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| TST-SEC-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| ENV-01 | RuleType.Blocking | PASS | Validated via evidence |
-| PR-STATUS-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| FLAKY-BLOCK-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| FLAKY-AUD-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
-| TEST-FAIL-FIX-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| TEST-MAINT-OBSO-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
-| TEST-MAINT-QA-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
-| POLICY-REVIEW-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
-| BUG-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
-| SMOKE-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| CR-03 | RuleType.Blocking | PASS | Validated via evidence |
+| TEST-01 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-02 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-03 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-04 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-05 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-06 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-07 | RuleType.Blocking | FAIL | Although the PR targets the 'main' branch, there's no explicit information provided about the status... |
+| TEST-08 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-09 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-10 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-11 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-12 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-13 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TEST-14 | RuleType.Blocking | MISSING_EVIDENCE | Blocking rule applied but no passing evidence found in sample. |
+| TQ-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
+| TQ-02 | RuleType.Audit | NOT_APPLICABLE | No Data |
+| TM-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
+| POLICY-01 | RuleType.Audit | NOT_APPLICABLE | No Data |
 
 ## Detailed Evidence Logs
 
@@ -37,128 +33,108 @@
 [
   {
     "rule_id": "CR-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the target branch or if a code review was performed."
+    "status": "NA",
+    "reasoning": "There is no information provided regarding PR.target_branch or PR.merge_requested or Review. Hence, this rule is not applicable."
   },
   {
     "rule_id": "CR-02",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the target branch or the code review approval status."
-  },
-  {
-    "rule_id": "COV-UNIT-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about code changes or unit test coverage."
-  },
-  {
-    "rule_id": "COV-INTEG-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about integration test coverage or if integration is affected."
-  },
-  {
-    "rule_id": "COV-CRIT-PAYMENT-01",
     "status": "NA",
-    "reasoning": "There is no information about payment feature being affected."
+    "reasoning": "There is no information regarding the existence of a PR or any associated review. Therefore, this rule is not applicable."
   },
   {
-    "rule_id": "COV-CRIT-AUTH-01",
+    "rule_id": "CR-03",
     "status": "NA",
-    "reasoning": "There is no information about auth feature being affected."
+    "reasoning": "There is no data about the existence of a PR or review requests. Thus, this rule is not applicable."
   },
   {
-    "rule_id": "COV-CRIT-SEC-01",
+    "rule_id": "TEST-01",
     "status": "NA",
-    "reasoning": "There is no information about security feature being affected."
+    "reasoning": "No data on PR changes or code coverage details provided. Hence, this rule is not applicable."
   },
   {
-    "rule_id": "COV-BRANCH-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about branch coverage."
+    "rule_id": "TEST-02",
+    "status": "NA",
+    "reasoning": "There is no mention of changes involving integration points or related file paths. Therefore, this rule is not applicable."
   },
   {
-    "rule_id": "COV-FUNC-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about function coverage."
+    "rule_id": "TEST-03",
+    "status": "NA",
+    "reasoning": "No information on file paths or PR changes related to security, payment, or critical paths. This rule is therefore not applicable."
   },
   {
-    "rule_id": "REPORT-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about coverage report generation, attachment, or review."
+    "rule_id": "TEST-04",
+    "status": "NA",
+    "reasoning": "There is no information on whether a PR was created or requested for merge, or on the existence of coverage reports. This rule is not applicable."
   },
   {
-    "rule_id": "TST-UNIT-RUN-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the target branch or unit test results."
+    "rule_id": "TEST-05",
+    "status": "NA",
+    "reasoning": "No data on whether PR changes included code or related coverage metrics. Thus, this rule is not applicable."
   },
   {
-    "rule_id": "TST-INTEG-RUN-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about integration test results or the target branch."
+    "rule_id": "TEST-06",
+    "status": "NA",
+    "reasoning": "There is no information about PR changes involving code or function coverage percentage. Therefore, this rule is not applicable."
   },
   {
-    "rule_id": "TST-E2E-RUN-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about whether critical user journeys are affected and end-to-end test results."
+    "rule_id": "TEST-07",
+    "status": "NA",
+    "reasoning": "Both PR.merge_requested and PR.target_branch data is missing; hence, this rule is not applicable."
   },
   {
-    "rule_id": "TST-PERF-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about performance requirements or test results."
+    "rule_id": "TEST-08",
+    "status": "NA",
+    "reasoning": "The context does not specify if a PR was created or if integration points were involved. Thus, not applicable."
   },
   {
-    "rule_id": "TST-SEC-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the target branch or security scan review status."
+    "rule_id": "TEST-09",
+    "status": "NA",
+    "reasoning": "No information on whether changes affected critical user journeys. Therefore, not applicable."
   },
   {
-    "rule_id": "ENV-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about a merge attempt or the CI environment."
+    "rule_id": "TEST-10",
+    "status": "NA",
+    "reasoning": "There is no mention of performance impact changes or if the changes were flagged for performance applicability. Hence, not applicable."
   },
   {
-    "rule_id": "PR-STATUS-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the PR status checks or if the PR is open."
+    "rule_id": "TEST-11",
+    "status": "NA",
+    "reasoning": "Missing information on PR merge requests or security scan statuses. Therefore, this rule is not applicable."
   },
   {
-    "rule_id": "FLAKY-BLOCK-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about flaky tests or the target branch."
+    "rule_id": "TEST-12",
+    "status": "NA",
+    "reasoning": "No details provided on whether a PR was requested for merging or about the CI pipeline specifics. Thus, not applicable."
   },
   {
-    "rule_id": "FLAKY-AUD-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about existing flaky tests or their age/status."
+    "rule_id": "TEST-13",
+    "status": "NA",
+    "reasoning": "Lack of information on whether a PR was requested for merging. Hence, this rule is not applicable."
   },
   {
-    "rule_id": "TEST-FAIL-FIX-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the target branch or test failure count."
+    "rule_id": "TEST-14",
+    "status": "NA",
+    "reasoning": "No information about test flakiness or target branch detail making this rule not applicable."
   },
   {
-    "rule_id": "TEST-MAINT-OBSO-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about obsolete tests or their status."
+    "rule_id": "TQ-01",
+    "status": "NA",
+    "reasoning": "No information on existing tests or their properties. This rule is not applicable."
   },
   {
-    "rule_id": "TEST-MAINT-QA-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about test code or its quality."
+    "rule_id": "TQ-02",
+    "status": "NA",
+    "reasoning": "There is no detail on test existence or naming conventions. Hence, not applicable."
   },
   {
-    "rule_id": "POLICY-REVIEW-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about policy review frequency or the last reviewed date."
+    "rule_id": "TM-01",
+    "status": "NA",
+    "reasoning": "No mention of flaky tests exists here. Therefore, this rule is not applicable."
   },
   {
-    "rule_id": "BUG-01",
+    "rule_id": "POLICY-01",
     "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about the target branch or open issues in the issue tracker."
-  },
-  {
-    "rule_id": "SMOKE-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about whether critical features are affected or if smoke tests are completed."
+    "reasoning": "There is insufficient data on the current date, or when the policy was last reviewed to determine compliance."
   }
 ]
 ```
@@ -169,127 +145,107 @@
   {
     "rule_id": "CR-01",
     "status": "PASS",
-    "reasoning": "The PR targets the 'main' branch and a code review was performed since it has a reviewer assigned."
+    "reasoning": "The PR targets the 'main' branch and has been merged. Review exists and is completed by reviewer 'dsherret'."
   },
   {
     "rule_id": "CR-02",
     "status": "PASS",
-    "reasoning": "The PR targets the 'main' branch and has an approver (dsherret) who is not the author (bartlomieju) and presumably, the changes were approved as the PR was merged."
+    "reasoning": "The PR targets the 'main' branch and review exists. The approval was given by someone other than the author, ensuring compliance."
   },
   {
-    "rule_id": "COV-UNIT-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether code changes were made or the unit test coverage percentage."
-  },
-  {
-    "rule_id": "COV-INTEG-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether the PR affects integration or the integration test coverage percentage."
-  },
-  {
-    "rule_id": "COV-CRIT-PAYMENT-01",
-    "status": "NA",
-    "reasoning": "No indication that the affected feature is 'payment' or the files related to 'payment' are changed."
-  },
-  {
-    "rule_id": "COV-CRIT-AUTH-01",
-    "status": "NA",
-    "reasoning": "No indication that the affected feature is 'auth' or the files related to 'auth' are changed."
-  },
-  {
-    "rule_id": "COV-CRIT-SEC-01",
-    "status": "NA",
-    "reasoning": "No indication that the affected feature is 'security' or the files related to 'security' are changed."
-  },
-  {
-    "rule_id": "COV-BRANCH-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether code changes were made or the branch test coverage percentage."
-  },
-  {
-    "rule_id": "COV-FUNC-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether code changes were made or the function test coverage percentage."
-  },
-  {
-    "rule_id": "REPORT-01",
-    "status": "NA",
-    "reasoning": "PR is merged and not open, therefore this rule is not applicable."
-  },
-  {
-    "rule_id": "TST-UNIT-RUN-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information regarding the status of unit tests or the number of failures."
-  },
-  {
-    "rule_id": "TST-INTEG-RUN-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information regarding the status of integration tests."
-  },
-  {
-    "rule_id": "TST-E2E-RUN-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether the PR affects critical user journeys or the status of E2E tests for critical journeys."
-  },
-  {
-    "rule_id": "TST-PERF-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether the PR requires performance tests or if the performance benchmarks were met."
-  },
-  {
-    "rule_id": "TST-SEC-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on the approval status of the security scan."
-  },
-  {
-    "rule_id": "ENV-01",
+    "rule_id": "CR-03",
     "status": "PASS",
-    "reasoning": "The PR was merged, indicating a merge attempt was likely successful. This implies the CI pipeline was run with a clean environment."
+    "reasoning": "The PR has been merged and a review exists. Status checks are passing which likely includes 'review' and review records exist as it was merged."
   },
   {
-    "rule_id": "PR-STATUS-01",
+    "rule_id": "TEST-01",
     "status": "NA",
-    "reasoning": "PR is merged and not open, therefore this rule is not applicable."
+    "reasoning": "No information on whether the PR includes new code or the code coverage percentage."
   },
   {
-    "rule_id": "FLAKY-BLOCK-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information regarding the count of flaky tests."
-  },
-  {
-    "rule_id": "FLAKY-AUD-01",
+    "rule_id": "TEST-02",
     "status": "NA",
-    "reasoning": "No information on the existence of flaky tests is provided."
+    "reasoning": "No information on whether the PR changes include integration points or affect specific file paths that require a minimum integration coverage percentage."
   },
   {
-    "rule_id": "TEST-FAIL-FIX-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information regarding the count of test failures."
-  },
-  {
-    "rule_id": "TEST-MAINT-OBSO-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information regarding the presence of obsolete tests and their status."
-  },
-  {
-    "rule_id": "TEST-MAINT-QA-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information regarding the quality of the test code."
-  },
-  {
-    "rule_id": "POLICY-REVIEW-01",
+    "rule_id": "TEST-03",
     "status": "NA",
-    "reasoning": "Irrelevant in the context of a pull request."
+    "reasoning": "No information about changes to critical paths or specific file paths, hence compliance cannot be determined."
   },
   {
-    "rule_id": "BUG-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information about open issues in the issue tracker with severity 'critical' or 'high'."
+    "rule_id": "TEST-04",
+    "status": "NA",
+    "reasoning": "No information about whether artifacts contain a coverage report or attachments contain it in the review context."
   },
   {
-    "rule_id": "SMOKE-01",
-    "status": "MORE_INFOMATION_NEEDED",
-    "reasoning": "There is no information on whether the PR affects critical features or if manual smoke testing was completed."
+    "rule_id": "TEST-05",
+    "status": "NA",
+    "reasoning": "No information on whether the PR changes include code or branch coverage percentage."
+  },
+  {
+    "rule_id": "TEST-06",
+    "status": "NA",
+    "reasoning": "No information on whether the PR changes include code or function coverage percentage."
+  },
+  {
+    "rule_id": "TEST-07",
+    "status": "FAIL",
+    "reasoning": "Although the PR targets the 'main' branch, there's no explicit information provided about the status of CI unit tests."
+  },
+  {
+    "rule_id": "TEST-08",
+    "status": "NA",
+    "reasoning": "No information on whether the PR changes include integration points."
+  },
+  {
+    "rule_id": "TEST-09",
+    "status": "NA",
+    "reasoning": "No information on whether the changes affect critical user journeys."
+  },
+  {
+    "rule_id": "TEST-10",
+    "status": "NA",
+    "reasoning": "No information about any performance-affecting changes."
+  },
+  {
+    "rule_id": "TEST-11",
+    "status": "NA",
+    "reasoning": "No information on whether the PR changes include code or the status of the security scan."
+  },
+  {
+    "rule_id": "TEST-12",
+    "status": "NA",
+    "reasoning": "No information about the CI pipeline's existence or the environment in which tests are being run."
+  },
+  {
+    "rule_id": "TEST-13",
+    "status": "NA",
+    "reasoning": "No detailed information about whether specific status checks ('unit', 'integration', 'security') are contained in the merge request."
+  },
+  {
+    "rule_id": "TEST-14",
+    "status": "NA",
+    "reasoning": "No information regarding flaky tests."
+  },
+  {
+    "rule_id": "TQ-01",
+    "status": "NA",
+    "reasoning": "No specific information about the existing tests' properties."
+  },
+  {
+    "rule_id": "TQ-02",
+    "status": "NA",
+    "reasoning": "No specific information about the naming and cases of existing tests."
+  },
+  {
+    "rule_id": "TM-01",
+    "status": "NA",
+    "reasoning": "No information regarding flaky tests or tracking tickets."
+  },
+  {
+    "rule_id": "POLICY-01",
+    "status": "NA",
+    "reasoning": "No information about the last review date of applicable policies."
   }
 ]
 ```

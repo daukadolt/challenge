@@ -69,14 +69,27 @@ function EvaluateCompliance(facts: string, control: Control) -> RuleEvaluation[]
 function ExtractControl(control: string) -> Control {
     client "openai-responses/gpt-5-mini" 
     prompt #"
-        Extract the control logic from the following content into a structured format.
+        Extract the control logic from the following policy document.
         
-        Guidelines:
-        1. Atomic Rules: Split compound thresholds (e.g. Unit 80% AND Integration 60%) into separate rules.
-        2. Explicit Logic: Use exact values ('payment', 'auth') in logic strings.
-        3. Type: Mark 'Blocking' for release gates, 'Audit' for maintenance.
+        ### Role
+        You are a Compliance Architect defining rules for an AI Auditor. 
+        Your output will be used to verify evidence (screenshots/logs) which may contain system-specific variations (e.g., "microsoft:main" vs "main").
 
-        Content:
+        ### Extraction Guidelines
+        1. **Robust Operators**: 
+           - Avoid strict equality (`==`) for names, paths, or identifiers. Real-world data is messy.
+           - Prefer **containment** or **matching** logic (e.g., `contains`, `matches`, `includes`) for text fields.
+           - Use strict equality (`==`) ONLY for booleans (`true`/`false`) or fixed enums (`'approved'`, `'clean'`).
+
+        2. **Atomic Granularity**: 
+           - Break complex policies into the smallest possible testable units.
+           - ONE rule = ONE concept. (e.g., Split "Review by independent peer" into "Review performed" AND "Reviewer is independent").
+
+        3. **Contextual Gating**:
+           - Explicitly define *when* a rule applies using the format: `Context -> Requirement`.
+           - Example: `PR.changes.include_code -> Coverage.exists`
+
+        ### Content to Extract
         {{ control }}
 
         {{ ctx.output_format }}
