@@ -91,7 +91,13 @@ def _reconciliate_rules(
         elif verdict == _Status.MISSING_EVIDENCE:
             reasons = ["Blocking rule applied but no passing evidence found in sample."]
 
-        reason_short = (reasons[0][:50] + "...") if reasons else "No Data"
+        if reasons:
+            reason_short = (
+                (reasons[0][:100] + "...") if len(reasons[0]) > 100 else reasons[0]
+            )
+        else:
+            reason_short = "No Data"
+
         output_lines.append(
             f"| {rule_id} | {r_type} | {verdict.name} | {reason_short} |"
         )
@@ -101,7 +107,9 @@ def _reconciliate_rules(
         output_lines.append(f"\n### Evidence [{idx}]: {result['filename']}")
         relevant_results = [r.model_dump() for r in result["result"]]
         if relevant_results:
+            output_lines.append("```json")
             output_lines.append(json.dumps(relevant_results, indent=2))
+            output_lines.append("```")
         else:
             output_lines.append("(No relevant compliance signals found in this file)")
 
@@ -116,19 +124,19 @@ def _reconciliate_rules(
 
 def process_sample(sample_dir: Path, control: Control) -> None:
     print(f"Processing {sample_dir}")
-    image_files = sorted(sample_dir.glob("*.png"))  # or *.jpg
+    image_files = sorted(sample_dir.glob("*.png"))
 
     results: List[EvidenceAnalysis] = []
 
     for image_path in image_files:
         try:
+            print(f"  Analyzing {image_path.name}...")
             with open(image_path, "rb") as f:
                 encoded = base64.b64encode(f.read()).decode("utf-8")
 
             img = Image.from_base64("image/png", encoded)
             evidence_type = b.IdentifyEvidenceType(img=img)
 
-            # Simple factory logic
             facts_str = ""
             if evidence_type == EvidenceType.CIPipeline:
                 facts_str = json.dumps(b.ExtractCIFacts(img=img).model_dump())
@@ -137,13 +145,16 @@ def process_sample(sample_dir: Path, control: Control) -> None:
             elif evidence_type == EvidenceType.PullRequest:
                 facts_str = json.dumps(b.ExtractPRFacts(img=img).model_dump())
 
-            # Even if facts_str is empty, run evaluation (the AI might default to N/A)
-            res = b.EvaluateCompliance(facts_str, control)
-            results.append({"filename": image_path.name, "result": res})
+            if facts_str:
+                res = b.EvaluateCompliance(facts_str, control)
+                results.append({"filename": image_path.name, "result": res})
+            else:
+                print(
+                    f"    Skipping compliance check for {image_path.name} (Type: {evidence_type})"
+                )
 
         except Exception as e:
             print(f"Error processing {image_path.name}: {e}")
-            # You might want to append a "System Error" result here
 
-    # Pass control to reconciliation
-    _reconciliate_rules(sample_dir, results, control)
+    report = _reconciliate_rules(sample_dir, results, control)
+    print(f"Sample Result: {report['status'].name}")

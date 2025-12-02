@@ -1,41 +1,69 @@
-# Bead Audit Agent Challenge
+# Bead Audit Agent Challenge Solution
 
-## Overview
+This repository contains the solution for the Bead Audit Agent Challenge. The solution implements an automated control auditor that verifies evidence against control requirements using BAML (Better Architecture for ML).
 
-Welcome to the our Audit Agent Challenge. This task will give you a flavour of the work you will be doing at Bead and help us understand how you tackle loosely defined problems. This repository contains all instructions and supporting documents needed to get started.
+## Setup
 
-## Background
+### Prerequisites
+- Python 3.10+
+- [uv](https://github.com/astral-sh/uv)
+- OpenAI API Key (or other BAML-compatible provider)
 
-Many tasks in the world of auditing require verifying that a specific policy or procedure has been followed. To assess this, the auditor selects a random sample and collects evidence to verify whether the requirements are met for each.
+### Installation
 
-## The Task
+1. **Clone the repository:**
+   ```bash
+   git clone <repo_url>
+   cd <repo_name>
+   ```
 
-We have taken one particular example of this: a control that ensures systems can't be changed unless a set of prerequisites is true. You are provided with the control description, control attributes, and a few evidence samples, in this case, screenshots of GitHub pull requests showing the changes made.
+2. **Install dependencies:**
+   ```bash
+   uv sync
+   ```
 
-## Expected Output
+3. **Environment Setup:**
+   Duplicate the `env.template` file to `.env` and fill in your API keys:
+   ```bash
+   cp env.template .env
+   # Edit .env to add your OPENAI_API_KEY
+   ```
 
-* For each sample and control attribute provide a JSON object that includeds the assements and contexual details of how the conclussion was formed
-* The assessment can be SUCCESS, FAIL, FURTHER_EVIDENCE_REQUIRED
+## Requirements & Assumptions
 
-## Constraints
+The system expects the input directory (control directory) to follow this structure:
 
-* You can use any langugage, framework, models, APIs or technologies you feel best suited for the task.
-* There are no cost or performance requirements. Accuracy is the only objective for now.
-* We will let you decide how generic your solution should be. For this task, it is enough if it can cover this particular control with various inputs.
-* Auditing often means making judgments with imperfect input. A good auditor balances detail and efficiency.
-* The more detailed and auditable the output, the better.
+1. **Control Definitions**: The directory must contain one or more Markdown (`.md`) files describing the control. These files are used as the source to extract audit rules.
+2. **Samples Directory**: The directory must contain a `samples` subdirectory.
+3. **Sample Structure**: Each subdirectory within `samples/` is treated as an individual audit sample.
+   - *Note:* Currently, only image files (evidence screenshots) are supported for analysis within these sample directories.
+4. **Output**: For each processed sample, the audit results (reconciliation of rules and evidence) will be written into an `audit_results.md` file within that sample's directory.
 
-## Submission
+## Usage
 
-1. Fork this repository
-2. Add your solution to the `src` folder and provide a CLI command to run against the sample folder
-3. Please ensure that there are detailed instructions to set up and run your code
+### Running the Auditor
+To run the auditor against the provided samples, use the following command:
 
-# Next Steps
+```bash
+# Default path (data/independent-code-review)
+python src/main.py
 
-After submission, we will test your solution with more samples for this control and discuss the results with you.
+# Custom path
+python src/main.py path/to/your/control/directory
+```
 
-## Notes
+### Output
+The tool processes each sample in the target directory and generates an assessment. The results are printed to the console, and detailed report is saved to `audit_results.md` in each sample folder.
 
-* If there are any open questions that need clarification you can reach out to the team.
-* If you came accross this repostory and think this is a fun problem to solve - we are hiring https://usebead.ai/careers
+## Project Structure
+
+- `src/main.py`: Entry point for the CLI.
+- `src/services/`: Business logic for control and sample processing.
+- `baml_src/`: BAML definitions for the AI logic (extraction, classification, reasoning).
+- `data/`: Sample data and control definitions.
+
+## How it works
+1. **Control Parsing**: The system reads the `control.json` or `control.md` to understand the audit requirements.
+2. **Evidence Analysis**: It iterates through sample folders, analyzing evidence (screenshots).
+3. **Verification**: Using LLMs defined via BAML, it compares the evidence against the control rules to determine compliance (SUCCESS, FAIL, or FURTHER_EVIDENCE_REQUIRED).
+4. **Reconciliation**: It aggregates results across all evidence for a sample and generates a final report.

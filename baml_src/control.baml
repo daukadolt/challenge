@@ -57,7 +57,8 @@ function EvaluateCompliance(facts: string, control: Control) -> RuleEvaluation[]
         ---
         RULES TO CHECK:
         {% for rule in control.rules %}
-          {{ rule }}
+          rule id: {{ rule.id }}
+          logic to evaluate the rule: {{ rule.logic }}
         {% endfor %}
         ---
 
