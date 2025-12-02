@@ -5,9 +5,15 @@ import json
 from pathlib import Path
 from baml_py import Image
 from baml_client import b
-from baml_client.types import Control, EvidenceType
+from baml_client.types import Control, EvidenceType, RuleEvaluation
+from typing import List, TypedDict
 
 load_dotenv()
+
+
+class EvidenceAnalysis(TypedDict):
+    filename: str
+    result: List[RuleEvaluation]
 
 
 def init_control(control_dir: Path) -> Control:
@@ -51,7 +57,7 @@ def process_sample(sample_dir: Path, control: Control) -> None:
     print(f"Processing {sample_dir}")
     image_files = sorted(sample_dir.glob("*.png"))
 
-    results = []
+    results: List[EvidenceAnalysis] = []
 
     for image_path in image_files:
         with open(image_path, "rb") as f:
