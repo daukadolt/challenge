@@ -1,0 +1,6 @@
+Module,FilePath,LineCoverage,BranchCoverage,FunctionCoverage,NewCodeCoverage
+Auth,src/auth/login_service.ts,100.00,95.50,100.00,100.00
+Payment,src/payment/processor.ts,100.00,98.20,100.00,100.00
+Core,src/utils/date_formatter.ts,85.50,72.00,88.00,86.00
+UI,src/components/button.tsx,92.00,85.00,90.00,92.00
+TOTAL,ALL_FILES,94.38,87.67,94.50,
