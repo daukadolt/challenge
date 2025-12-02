@@ -15,13 +15,18 @@ from . import stream_types
 
 
 type_map = {
+    "types.CIFacts": types.CIFacts,
+    "stream_types.CIFacts": stream_types.CIFacts,
     "types.Control": types.Control,
     "stream_types.Control": stream_types.Control,
-    "types.ControlEvaluationResult": types.ControlEvaluationResult,
-    "stream_types.ControlEvaluationResult": stream_types.ControlEvaluationResult,
+    "types.CoverageFacts": types.CoverageFacts,
+    "stream_types.CoverageFacts": stream_types.CoverageFacts,
+    "types.PRFacts": types.PRFacts,
+    "stream_types.PRFacts": stream_types.PRFacts,
     "types.Rule": types.Rule,
     "stream_types.Rule": stream_types.Rule,
     "types.RuleEvaluation": types.RuleEvaluation,
     "stream_types.RuleEvaluation": stream_types.RuleEvaluation,
+    "types.EvidenceType": types.EvidenceType,
     "types.RuleType": types.RuleType,
 }

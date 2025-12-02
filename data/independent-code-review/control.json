@@ -1,0 +1,274 @@
+{
+  "name": "Independent Code Review & Testing Policy Controls",
+  "description": "Controls derived from the Independent Code Review and Testing Policy. Blocking rules are gating conditions that must be satisfied before merge/release. Audit rules are ongoing maintenance/process requirements.",
+  "rules": [
+    {
+      "id": "CR-01",
+      "type": "Blocking",
+      "description": "Code changes targeting the main branch must have an independent code review performed prior to merge.",
+      "logic": "PR.target_branch == 'main' -> CodeReview.performed == true",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes",
+        "Build and Deployment Scripts",
+        "Dependency Updates",
+        "Refactoring with No Behavioral Changes"
+      ]
+    },
+    {
+      "id": "CR-02",
+      "type": "Blocking",
+      "description": "At least one approval must come from an approver independent of the author.",
+      "logic": "PR.target_branch == 'main' -> exists(CodeReview.approver) where CodeReview.approver != PR.author AND CodeReview.approval_status == 'approved'",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes",
+        "Build and Deployment Scripts",
+        "Dependency Updates",
+        "Refactoring with No Behavioral Changes"
+      ]
+    },
+    {
+      "id": "COV-UNIT-01",
+      "type": "Blocking",
+      "description": "Minimum unit test code coverage for changed/new code.",
+      "logic": "PR.changes.contains('code') -> Coverage.unit >= 80",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes",
+        "Build and Deployment Scripts",
+        "Dependency Updates",
+        "Refactoring with No Behavioral Changes"
+      ]
+    },
+    {
+      "id": "COV-INTEG-01",
+      "type": "Blocking",
+      "description": "Minimum integration test coverage for critical integration points.",
+      "logic": "PR.affects_integration == true -> Coverage.integration >= 60",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes",
+        "Build and Deployment Scripts",
+        "Dependency Updates",
+        "Refactoring with No Behavioral Changes"
+      ]
+    },
+    {
+      "id": "COV-CRIT-PAYMENT-01",
+      "type": "Blocking",
+      "description": "100% coverage required for payment flows.",
+      "logic": "PR.affected_feature == 'payment' OR FilePath.contains('payment') -> Coverage.line == 100",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "COV-CRIT-AUTH-01",
+      "type": "Blocking",
+      "description": "100% coverage required for authentication flows.",
+      "logic": "PR.affected_feature == 'auth' OR FilePath.contains('auth') -> Coverage.line == 100",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "COV-CRIT-SEC-01",
+      "type": "Blocking",
+      "description": "100% coverage required for security-sensitive flows.",
+      "logic": "PR.affected_feature == 'security' OR FilePath.contains('security') -> Coverage.line == 100",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "COV-BRANCH-01",
+      "type": "Blocking",
+      "description": "Minimum branch coverage requirement.",
+      "logic": "PR.changes.contains('code') -> Coverage.branch >= 70",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes"
+      ]
+    },
+    {
+      "id": "COV-FUNC-01",
+      "type": "Blocking",
+      "description": "Minimum function coverage requirement.",
+      "logic": "PR.changes.contains('code') -> Coverage.function >= 80",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Third-Party Dependencies",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes"
+      ]
+    },
+    {
+      "id": "REPORT-01",
+      "type": "Blocking",
+      "description": "Coverage reports must be generated, attached to the PR, and reviewed as part of code review.",
+      "logic": "PR.open == true -> Coverage.report.generated == true AND PR.attachments.contains('coverage_report') == true AND CodeReview.contains('coverage_report_review') == true",
+      "exceptions": [
+        "Documentation-Only Changes",
+        "Build and Deployment Scripts",
+        "Dependency Updates"
+      ]
+    },
+    {
+      "id": "TST-UNIT-RUN-01",
+      "type": "Blocking",
+      "description": "All unit tests must pass with zero failures before release.",
+      "logic": "PR.target_branch == 'main' -> UnitTest.status == 'pass' AND UnitTest.failures == 0",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes"
+      ]
+    },
+    {
+      "id": "TST-INTEG-RUN-01",
+      "type": "Blocking",
+      "description": "All integration tests must pass before release.",
+      "logic": "PR.target_branch == 'main' -> IntegrationTest.status == 'pass'",
+      "exceptions": [
+        "Third-Party Dependencies",
+        "Legacy Code Integration",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "TST-E2E-RUN-01",
+      "type": "Blocking",
+      "description": "End-to-end tests covering critical user journeys must pass before release.",
+      "logic": "PR.affects_critical_user_journeys == true -> E2ETests.critical_journeys.status == 'pass'",
+      "exceptions": [
+        "Proof of Concept / Experimental Features",
+        "Documentation-Only Changes"
+      ]
+    },
+    {
+      "id": "TST-PERF-01",
+      "type": "Blocking",
+      "description": "Performance benchmarks must be met when performance tests are applicable.",
+      "logic": "PR.requires_performance == true -> PerformanceTest.benchmarks_met == true",
+      "exceptions": [
+        "Documentation-Only Changes",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "TST-SEC-01",
+      "type": "Blocking",
+      "description": "Security scan results must be reviewed and approved before release.",
+      "logic": "PR.target_branch == 'main' -> SecurityScan.review_status == 'approved'",
+      "exceptions": [
+        "Documentation-Only Changes",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "ENV-01",
+      "type": "Blocking",
+      "description": "Tests must run in the CI/CD pipeline in a clean environment prior to merge.",
+      "logic": "PR.merge_attempt == true -> CI.pipeline.run == true AND CI.environment == 'clean'",
+      "exceptions": [
+        "Documentation-Only Changes",
+        "Proof of Concept / Experimental Features",
+        "Build and Deployment Scripts"
+      ]
+    },
+    {
+      "id": "PR-STATUS-01",
+      "type": "Blocking",
+      "description": "Test results and required status checks must be visible on the pull request.",
+      "logic": "PR.open == true -> PR.status_checks.tests.visible == true AND PR.status_checks.coverage.visible == true",
+      "exceptions": [
+        "Documentation-Only Changes",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "FLAKY-BLOCK-01",
+      "type": "Blocking",
+      "description": "No flaky tests may remain blocking the release; flaky tests must be fixed or removed before release.",
+      "logic": "PR.target_branch == 'main' -> FlakyTests.count == 0",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "FLAKY-AUD-01",
+      "type": "Audit",
+      "description": "Flaky tests must be fixed or removed within 2 business days of detection.",
+      "logic": "FlakyTest.exists == true -> FlakyTest.age_in_business_days <= 2 OR FlakyTest.status in ['fixed','removed']",
+      "exceptions": []
+    },
+    {
+      "id": "TEST-FAIL-FIX-01",
+      "type": "Blocking",
+      "description": "Any failing tests must be fixed before code merge.",
+      "logic": "PR.target_branch == 'main' -> Test.failure_count == 0",
+      "exceptions": [
+        "Legacy Code Integration",
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "TEST-MAINT-OBSO-01",
+      "type": "Audit",
+      "description": "Obsolete tests must be removed or updated as part of test maintenance.",
+      "logic": "Test.obsolete == true -> Test.status in ['removed','updated']",
+      "exceptions": []
+    },
+    {
+      "id": "TEST-MAINT-QA-01",
+      "type": "Audit",
+      "description": "Test code quality must meet the same standards as production code.",
+      "logic": "Test.code.exists == true -> Test.code_quality == 'meets_production_standards'",
+      "exceptions": []
+    },
+    {
+      "id": "POLICY-REVIEW-01",
+      "type": "Audit",
+      "description": "Testing policy is reviewed quarterly by the policy owner.",
+      "logic": "Policy.review_frequency == 'quarterly' -> months_since(Policy.last_reviewed) <= 3",
+      "exceptions": []
+    },
+    {
+      "id": "BUG-01",
+      "type": "Blocking",
+      "description": "No known critical or high-severity bugs may be open against the release.",
+      "logic": "PR.target_branch == 'main' -> IssueTracker.open_issues.count(where severity in ['critical','high']) == 0",
+      "exceptions": [
+        "Proof of Concept / Experimental Features"
+      ]
+    },
+    {
+      "id": "SMOKE-01",
+      "type": "Blocking",
+      "description": "Manual smoke tests must be completed for critical features before release.",
+      "logic": "PR.affects_critical_features == true -> ManualSmoke.tests_completed == true",
+      "exceptions": [
+        "Documentation-Only Changes",
+        "Proof of Concept / Experimental Features"
+      ]
+    }
+  ]
+}

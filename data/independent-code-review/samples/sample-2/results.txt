@@ -1,0 +1,263 @@
+================================================================================
+COMBINED RESULTS
+================================================================================
+
+[1] Screenshot 2025-11-14 at 14-31-38 feat use Node.js timers by default · denoland_deno@12cde71.png
+--------------------------------------------------------------------------------
+[
+  {
+    "rule_id": "CR-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about whether the code changes target the main branch or about the code review status."
+  },
+  {
+    "rule_id": "CR-02",
+    "status": "N/A",
+    "reasoning": "No information is provided about whether the code changes target the main branch or about the approvers."
+  },
+  {
+    "rule_id": "COV-UNIT-01",
+    "status": "N/A",
+    "reasoning": "There is no information about code changes or unit test coverage."
+  },
+  {
+    "rule_id": "COV-INTEG-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about affecting integration points or integration test coverage."
+  },
+  {
+    "rule_id": "COV-CRIT-PAYMENT-01",
+    "status": "N/A",
+    "reasoning": "No information about payment-related features or coverage is given."
+  },
+  {
+    "rule_id": "COV-CRIT-AUTH-01",
+    "status": "N/A",
+    "reasoning": "No information about auth-related features or coverage is given."
+  },
+  {
+    "rule_id": "COV-CRIT-SEC-01",
+    "status": "N/A",
+    "reasoning": "No information about security-related features or coverage is given."
+  },
+  {
+    "rule_id": "COV-BRANCH-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about code changes or branch coverage."
+  },
+  {
+    "rule_id": "COV-FUNC-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about code changes or function coverage."
+  },
+  {
+    "rule_id": "REPORT-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about open PRs or coverage reports."
+  },
+  {
+    "rule_id": "TST-UNIT-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about the target branch or unit test status."
+  },
+  {
+    "rule_id": "TST-INTEG-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about the target branch or integration test status."
+  },
+  {
+    "rule_id": "TST-E2E-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information about affecting critical user journeys or E2E test status is provided."
+  },
+  {
+    "rule_id": "TST-PERF-01",
+    "status": "N/A",
+    "reasoning": "No information about performance requirements or test results is given."
+  },
+  {
+    "rule_id": "TST-SEC-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about security scan results or the target branch."
+  },
+  {
+    "rule_id": "ENV-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about merge attempts or the CI environment."
+  },
+  {
+    "rule_id": "PR-STATUS-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about open PRs or visible status checks."
+  },
+  {
+    "rule_id": "FLAKY-BLOCK-01",
+    "status": "N/A",
+    "reasoning": "No information about the presence of flaky tests or the target branch is provided."
+  },
+  {
+    "rule_id": "FLAKY-AUD-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about the presence or status of flaky tests."
+  },
+  {
+    "rule_id": "TEST-FAIL-FIX-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about failing tests or the target branch."
+  },
+  {
+    "rule_id": "TEST-MAINT-OBSO-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about obsolete tests."
+  },
+  {
+    "rule_id": "TEST-MAINT-QA-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about test code quality."
+  },
+  {
+    "rule_id": "POLICY-REVIEW-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about testing policy reviews."
+  },
+  {
+    "rule_id": "BUG-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about open issues or the target branch."
+  },
+  {
+    "rule_id": "SMOKE-01",
+    "status": "N/A",
+    "reasoning": "No information is provided about manual smoke test completion or the presence of critical features."
+  }
+]
+
+[2] Screenshot 2025-11-14 at 14-32-05 feat use Node.js timers by default by bartlomieju · Pull Request #31272 · denoland_deno.png
+--------------------------------------------------------------------------------
+[
+  {
+    "rule_id": "CR-01",
+    "status": "PASS",
+    "reasoning": "The pull request was merged and had an independent code review performed by 'dsherret'."
+  },
+  {
+    "rule_id": "CR-02",
+    "status": "PASS",
+    "reasoning": "The reviewer 'dsherret' is independent of the author 'bartlomieju'. Therefore, the requirement for an independent approval is satisfied."
+  },
+  {
+    "rule_id": "COV-UNIT-01",
+    "status": "N/A",
+    "reasoning": "There is no specific information provided about the unit test code coverage or whether code changes were present in the PR."
+  },
+  {
+    "rule_id": "COV-INTEG-01",
+    "status": "N/A",
+    "reasoning": "There's no information about whether the PR affects integration points or the integration test coverage levels."
+  },
+  {
+    "rule_id": "COV-CRIT-PAYMENT-01",
+    "status": "N/A",
+    "reasoning": "There is no information regarding whether the pull request affected payment features or relevant coverage paths."
+  },
+  {
+    "rule_id": "COV-CRIT-AUTH-01",
+    "status": "N/A",
+    "reasoning": "There is no information regarding whether the pull request affected authentication features or relevant coverage paths."
+  },
+  {
+    "rule_id": "COV-CRIT-SEC-01",
+    "status": "N/A",
+    "reasoning": "There is no information regarding whether the pull request affected security features or relevant coverage paths."
+  },
+  {
+    "rule_id": "COV-BRANCH-01",
+    "status": "N/A",
+    "reasoning": "There is no specific information provided about branch coverage or whether code changes were present in the PR."
+  },
+  {
+    "rule_id": "COV-FUNC-01",
+    "status": "N/A",
+    "reasoning": "There is no specific information provided about function coverage or whether code changes were present in the PR."
+  },
+  {
+    "rule_id": "REPORT-01",
+    "status": "N/A",
+    "reasoning": "There is no information about whether the coverage report was generated and attached to the PR."
+  },
+  {
+    "rule_id": "TST-UNIT-RUN-01",
+    "status": "N/A",
+    "reasoning": "There is no specific information provided about the unit test execution status."
+  },
+  {
+    "rule_id": "TST-INTEG-RUN-01",
+    "status": "N/A",
+    "reasoning": "There is no specific information provided about the integration test execution status."
+  },
+  {
+    "rule_id": "TST-E2E-RUN-01",
+    "status": "N/A",
+    "reasoning": "There is no information available on whether the PR affects critical user journeys."
+  },
+  {
+    "rule_id": "TST-PERF-01",
+    "status": "N/A",
+    "reasoning": "There is no information available about any performance test requirements or their outcomes."
+  },
+  {
+    "rule_id": "TST-SEC-01",
+    "status": "N/A",
+    "reasoning": "There is no specific information about security scan review and approval status."
+  },
+  {
+    "rule_id": "ENV-01",
+    "status": "N/A",
+    "reasoning": "There is no information about whether tests ran in a CI/CD pipeline in a clean environment."
+  },
+  {
+    "rule_id": "PR-STATUS-01",
+    "status": "PASS",
+    "reasoning": "The Pull Request status checks passed, indicating that the required status checks are visible."
+  },
+  {
+    "rule_id": "FLAKY-BLOCK-01",
+    "status": "N/A",
+    "reasoning": "There is no information provided about the presence or absence of flaky tests."
+  },
+  {
+    "rule_id": "FLAKY-AUD-01",
+    "status": "N/A",
+    "reasoning": "There is no information provided on flaky tests or their resolution status."
+  },
+  {
+    "rule_id": "TEST-FAIL-FIX-01",
+    "status": "PASS",
+    "reasoning": "All status checks passed, indicating no failing tests at the time of merge."
+  },
+  {
+    "rule_id": "TEST-MAINT-OBSO-01",
+    "status": "N/A",
+    "reasoning": "There is no information provided on obsolete tests in the context."
+  },
+  {
+    "rule_id": "TEST-MAINT-QA-01",
+    "status": "N/A",
+    "reasoning": "There is no information provided on test code quality in the context."
+  },
+  {
+    "rule_id": "POLICY-REVIEW-01",
+    "status": "N/A",
+    "reasoning": "There is no information provided about the testing policy review timeline."
+  },
+  {
+    "rule_id": "BUG-01",
+    "status": "N/A",
+    "reasoning": "There is no information regarding open critical or high-severity bugs against the release."
+  },
+  {
+    "rule_id": "SMOKE-01",
+    "status": "N/A",
+    "reasoning": "There is no information about whether critical features are affected or manual smoke tests were completed."
+  }
+]

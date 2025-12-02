@@ -101,29 +101,51 @@ class BamlSyncClient:
     def parse_stream(self):
         return self.__llm_stream_parser
 
-    def EvaluateImage(
+    def EvaluateCompliance(
         self,
-        img: baml_py.Image,
+        facts: str,
         control: types.Control,
         baml_options: BamlCallOptions = {},
-    ) -> types.ControlEvaluationResult:
+    ) -> typing.List["types.RuleEvaluation"]:
         # Check if on_tick is provided
         if "on_tick" in baml_options:
-            stream = self.stream.EvaluateImage(
-                img=img, control=control, baml_options=baml_options
+            stream = self.stream.EvaluateCompliance(
+                facts=facts, control=control, baml_options=baml_options
             )
             return stream.get_final_response()
         else:
             # Original non-streaming code
             result = self.__options.merge_options(baml_options).call_function_sync(
-                function_name="EvaluateImage",
+                function_name="EvaluateCompliance",
                 args={
-                    "img": img,
+                    "facts": facts,
                     "control": control,
                 },
             )
             return typing.cast(
-                types.ControlEvaluationResult,
+                typing.List["types.RuleEvaluation"],
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    def ExtractCIFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> types.CIFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            stream = self.stream.ExtractCIFacts(img=img, baml_options=baml_options)
+            return stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = self.__options.merge_options(baml_options).call_function_sync(
+                function_name="ExtractCIFacts",
+                args={
+                    "img": img,
+                },
+            )
+            return typing.cast(
+                types.CIFacts,
                 result.cast_to(types, types, stream_types, False, __runtime__),
             )
 
@@ -151,6 +173,76 @@ class BamlSyncClient:
                 result.cast_to(types, types, stream_types, False, __runtime__),
             )
 
+    def ExtractCoverageFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> types.CoverageFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            stream = self.stream.ExtractCoverageFacts(
+                img=img, baml_options=baml_options
+            )
+            return stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = self.__options.merge_options(baml_options).call_function_sync(
+                function_name="ExtractCoverageFacts",
+                args={
+                    "img": img,
+                },
+            )
+            return typing.cast(
+                types.CoverageFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    def ExtractPRFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> types.PRFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            stream = self.stream.ExtractPRFacts(img=img, baml_options=baml_options)
+            return stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = self.__options.merge_options(baml_options).call_function_sync(
+                function_name="ExtractPRFacts",
+                args={
+                    "img": img,
+                },
+            )
+            return typing.cast(
+                types.PRFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    def IdentifyEvidenceType(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> types.EvidenceType:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            stream = self.stream.IdentifyEvidenceType(
+                img=img, baml_options=baml_options
+            )
+            return stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = self.__options.merge_options(baml_options).call_function_sync(
+                function_name="IdentifyEvidenceType",
+                args={
+                    "img": img,
+                },
+            )
+            return typing.cast(
+                types.EvidenceType,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
 
 class BamlStreamClient:
     __options: DoNotUseDirectlyCallManager
@@ -158,32 +250,56 @@ class BamlStreamClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def EvaluateImage(
+    def EvaluateCompliance(
         self,
-        img: baml_py.Image,
+        facts: str,
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlSyncStream[
-        stream_types.ControlEvaluationResult, types.ControlEvaluationResult
+        typing.List["stream_types.RuleEvaluation"], typing.List["types.RuleEvaluation"]
     ]:
         ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
-            function_name="EvaluateImage",
+            function_name="EvaluateCompliance",
             args={
-                "img": img,
+                "facts": facts,
                 "control": control,
             },
         )
         return baml_py.BamlSyncStream[
-            stream_types.ControlEvaluationResult, types.ControlEvaluationResult
+            typing.List["stream_types.RuleEvaluation"],
+            typing.List["types.RuleEvaluation"],
         ](
             result,
             lambda x: typing.cast(
-                stream_types.ControlEvaluationResult,
+                typing.List["stream_types.RuleEvaluation"],
                 x.cast_to(types, types, stream_types, True, __runtime__),
             ),
             lambda x: typing.cast(
-                types.ControlEvaluationResult,
+                typing.List["types.RuleEvaluation"],
                 x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
+    def ExtractCIFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlSyncStream[stream_types.CIFacts, types.CIFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
+            function_name="ExtractCIFacts",
+            args={
+                "img": img,
+            },
+        )
+        return baml_py.BamlSyncStream[stream_types.CIFacts, types.CIFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.CIFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.CIFacts, x.cast_to(types, types, stream_types, False, __runtime__)
             ),
             ctx,
         )
@@ -211,6 +327,77 @@ class BamlStreamClient:
             ctx,
         )
 
+    def ExtractCoverageFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlSyncStream[stream_types.CoverageFacts, types.CoverageFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
+            function_name="ExtractCoverageFacts",
+            args={
+                "img": img,
+            },
+        )
+        return baml_py.BamlSyncStream[stream_types.CoverageFacts, types.CoverageFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.CoverageFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.CoverageFacts,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
+    def ExtractPRFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlSyncStream[stream_types.PRFacts, types.PRFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
+            function_name="ExtractPRFacts",
+            args={
+                "img": img,
+            },
+        )
+        return baml_py.BamlSyncStream[stream_types.PRFacts, types.PRFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.PRFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.PRFacts, x.cast_to(types, types, stream_types, False, __runtime__)
+            ),
+            ctx,
+        )
+
+    def IdentifyEvidenceType(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlSyncStream[types.EvidenceType, types.EvidenceType]:
+        ctx, result = self.__options.merge_options(baml_options).create_sync_stream(
+            function_name="IdentifyEvidenceType",
+            args={
+                "img": img,
+            },
+        )
+        return baml_py.BamlSyncStream[types.EvidenceType, types.EvidenceType](
+            result,
+            lambda x: typing.cast(
+                types.EvidenceType,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.EvidenceType,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
 
 class BamlHttpRequestClient:
     __options: DoNotUseDirectlyCallManager
@@ -218,17 +405,31 @@ class BamlHttpRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def EvaluateImage(
+    def EvaluateCompliance(
         self,
-        img: baml_py.Image,
+        facts: str,
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = self.__options.merge_options(baml_options).create_http_request_sync(
-            function_name="EvaluateImage",
+            function_name="EvaluateCompliance",
+            args={
+                "facts": facts,
+                "control": control,
+            },
+            mode="request",
+        )
+        return result
+
+    def ExtractCIFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractCIFacts",
             args={
                 "img": img,
-                "control": control,
             },
             mode="request",
         )
@@ -248,6 +449,48 @@ class BamlHttpRequestClient:
         )
         return result
 
+    def ExtractCoverageFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractCoverageFacts",
+            args={
+                "img": img,
+            },
+            mode="request",
+        )
+        return result
+
+    def ExtractPRFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractPRFacts",
+            args={
+                "img": img,
+            },
+            mode="request",
+        )
+        return result
+
+    def IdentifyEvidenceType(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="IdentifyEvidenceType",
+            args={
+                "img": img,
+            },
+            mode="request",
+        )
+        return result
+
 
 class BamlHttpStreamRequestClient:
     __options: DoNotUseDirectlyCallManager
@@ -255,17 +498,31 @@ class BamlHttpStreamRequestClient:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def EvaluateImage(
+    def EvaluateCompliance(
         self,
-        img: baml_py.Image,
+        facts: str,
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = self.__options.merge_options(baml_options).create_http_request_sync(
-            function_name="EvaluateImage",
+            function_name="EvaluateCompliance",
+            args={
+                "facts": facts,
+                "control": control,
+            },
+            mode="stream",
+        )
+        return result
+
+    def ExtractCIFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractCIFacts",
             args={
                 "img": img,
-                "control": control,
             },
             mode="stream",
         )
@@ -280,6 +537,48 @@ class BamlHttpStreamRequestClient:
             function_name="ExtractControl",
             args={
                 "control": control,
+            },
+            mode="stream",
+        )
+        return result
+
+    def ExtractCoverageFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractCoverageFacts",
+            args={
+                "img": img,
+            },
+            mode="stream",
+        )
+        return result
+
+    def ExtractPRFacts(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="ExtractPRFacts",
+            args={
+                "img": img,
+            },
+            mode="stream",
+        )
+        return result
+
+    def IdentifyEvidenceType(
+        self,
+        img: baml_py.Image,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = self.__options.merge_options(baml_options).create_http_request_sync(
+            function_name="IdentifyEvidenceType",
+            args={
+                "img": img,
             },
             mode="stream",
         )

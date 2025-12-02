@@ -24,14 +24,17 @@ class TypeBuilder(type_builder.TypeBuilder):
         super().__init__(
             classes=set(
                 [
+                    "CIFacts",
                     "Control",
-                    "ControlEvaluationResult",
+                    "CoverageFacts",
+                    "PRFacts",
                     "Rule",
                     "RuleEvaluation",
                 ]
             ),
             enums=set(
                 [
+                    "EvidenceType",
                     "RuleType",
                 ]
             ),
@@ -39,24 +42,36 @@ class TypeBuilder(type_builder.TypeBuilder):
         )
 
     # #########################################################################
-    # Generated enums 1
+    # Generated enums 2
     # #########################################################################
+
+    @property
+    def EvidenceType(self) -> "EvidenceTypeViewer":
+        return EvidenceTypeViewer(self)
 
     @property
     def RuleType(self) -> "RuleTypeViewer":
         return RuleTypeViewer(self)
 
     # #########################################################################
-    # Generated classes 4
+    # Generated classes 6
     # #########################################################################
+
+    @property
+    def CIFacts(self) -> "CIFactsViewer":
+        return CIFactsViewer(self)
 
     @property
     def Control(self) -> "ControlViewer":
         return ControlViewer(self)
 
     @property
-    def ControlEvaluationResult(self) -> "ControlEvaluationResultViewer":
-        return ControlEvaluationResultViewer(self)
+    def CoverageFacts(self) -> "CoverageFactsViewer":
+        return CoverageFactsViewer(self)
+
+    @property
+    def PRFacts(self) -> "PRFactsViewer":
+        return PRFactsViewer(self)
 
     @property
     def Rule(self) -> "RuleViewer":
@@ -68,8 +83,65 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
 # #########################################################################
-# Generated enums 1
+# Generated enums 2
 # #########################################################################
+
+
+class EvidenceTypeAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("EvidenceType")
+        self._values: typing.Set[str] = set(
+            [
+                "PullRequest",
+                "CoverageReport",
+                "CIPipeline",
+                "Unknown",
+            ]
+        )
+        self._vals = EvidenceTypeValues(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "EvidenceTypeValues":
+        return self._vals
+
+
+class EvidenceTypeViewer(EvidenceTypeAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_values(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [
+            (name, type_builder.EnumValueViewer(self._bldr.value(name)))
+            for name in self._values
+        ]
+
+
+class EvidenceTypeValues:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def PullRequest(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("PullRequest"))
+
+    @property
+    def CoverageReport(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("CoverageReport"))
+
+    @property
+    def CIPipeline(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("CIPipeline"))
+
+    @property
+    def Unknown(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("Unknown"))
 
 
 class RuleTypeAst:
@@ -120,8 +192,70 @@ class RuleTypeValues:
 
 
 # #########################################################################
-# Generated classes 4
+# Generated classes 6
 # #########################################################################
+
+
+class CIFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("CIFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "pipeline_id",
+                "overall_status",
+                "stage_statuses",
+                "environment",
+                "has_warnings",
+            ]
+        )
+        self._props = CIFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "CIFactsProperties":
+        return self._props
+
+
+class CIFactsViewer(CIFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class CIFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def pipeline_id(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("pipeline_id"))
+
+    @property
+    def overall_status(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("overall_status"))
+
+    @property
+    def stage_statuses(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("stage_statuses"))
+
+    @property
+    def environment(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("environment"))
+
+    @property
+    def has_warnings(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("has_warnings"))
 
 
 class ControlAst:
@@ -176,28 +310,31 @@ class ControlProperties:
         return type_builder.ClassPropertyViewer(self.__bldr.property("rules"))
 
 
-class ControlEvaluationResultAst:
+class CoverageFactsAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb  # type: ignore (we know how to use this private attribute)
-        self._bldr = _tb.class_("ControlEvaluationResult")
+        self._bldr = _tb.class_("CoverageFacts")
         self._properties: typing.Set[str] = set(
             [
-                "overall_status",
-                "failing_rules",
-                "missing_evidence_rules",
+                "tool_name",
+                "overall_line_coverage",
+                "new_code_line_coverage",
+                "branch_coverage",
+                "function_coverage",
+                "visible_files_tested",
             ]
         )
-        self._props = ControlEvaluationResultProperties(self._bldr, self._properties)
+        self._props = CoverageFactsProperties(self._bldr, self._properties)
 
     def type(self) -> baml_py.FieldType:
         return self._bldr.field()
 
     @property
-    def props(self) -> "ControlEvaluationResultProperties":
+    def props(self) -> "CoverageFactsProperties":
         return self._props
 
 
-class ControlEvaluationResultViewer(ControlEvaluationResultAst):
+class CoverageFactsViewer(CoverageFactsAst):
     def __init__(self, tb: type_builder.TypeBuilder):
         super().__init__(tb)
 
@@ -210,23 +347,117 @@ class ControlEvaluationResultViewer(ControlEvaluationResultAst):
         ]
 
 
-class ControlEvaluationResultProperties:
+class CoverageFactsProperties:
     def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
         self.__bldr = bldr
         self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
 
     @property
-    def overall_status(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("overall_status"))
+    def tool_name(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("tool_name"))
 
     @property
-    def failing_rules(self) -> type_builder.ClassPropertyViewer:
-        return type_builder.ClassPropertyViewer(self.__bldr.property("failing_rules"))
-
-    @property
-    def missing_evidence_rules(self) -> type_builder.ClassPropertyViewer:
+    def overall_line_coverage(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(
-            self.__bldr.property("missing_evidence_rules")
+            self.__bldr.property("overall_line_coverage")
+        )
+
+    @property
+    def new_code_line_coverage(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("new_code_line_coverage")
+        )
+
+    @property
+    def branch_coverage(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("branch_coverage"))
+
+    @property
+    def function_coverage(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("function_coverage")
+        )
+
+    @property
+    def visible_files_tested(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("visible_files_tested")
+        )
+
+
+class PRFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("PRFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "platform",
+                "pr_number",
+                "author_username",
+                "reviewer_usernames",
+                "status",
+                "base_branch",
+                "status_checks_passing",
+            ]
+        )
+        self._props = PRFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "PRFactsProperties":
+        return self._props
+
+
+class PRFactsViewer(PRFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class PRFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def platform(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("platform"))
+
+    @property
+    def pr_number(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("pr_number"))
+
+    @property
+    def author_username(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("author_username"))
+
+    @property
+    def reviewer_usernames(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("reviewer_usernames")
+        )
+
+    @property
+    def status(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("status"))
+
+    @property
+    def base_branch(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("base_branch"))
+
+    @property
+    def status_checks_passing(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("status_checks_passing")
         )
 
 

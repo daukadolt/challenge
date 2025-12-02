@@ -44,8 +44,15 @@ def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
 
 
 # #########################################################################
-# Generated enums (1)
+# Generated enums (2)
 # #########################################################################
+
+
+class EvidenceType(str, Enum):
+    PullRequest = "PullRequest"
+    CoverageReport = "CoverageReport"
+    CIPipeline = "CIPipeline"
+    Unknown = "Unknown"
 
 
 class RuleType(str, Enum):
@@ -54,8 +61,16 @@ class RuleType(str, Enum):
 
 
 # #########################################################################
-# Generated classes (4)
+# Generated classes (6)
 # #########################################################################
+
+
+class CIFacts(BaseModel):
+    pipeline_id: typing.Optional[str] = None
+    overall_status: typing.Optional[str] = None
+    stage_statuses: typing.Dict[str, str]
+    environment: typing.Optional[str] = None
+    has_warnings: bool
 
 
 class Control(BaseModel):
@@ -64,10 +79,23 @@ class Control(BaseModel):
     rules: typing.List["Rule"]
 
 
-class ControlEvaluationResult(BaseModel):
-    overall_status: str
-    failing_rules: typing.List["RuleEvaluation"]
-    missing_evidence_rules: typing.List["RuleEvaluation"]
+class CoverageFacts(BaseModel):
+    tool_name: typing.Optional[str] = None
+    overall_line_coverage: typing.Optional[float] = None
+    new_code_line_coverage: typing.Optional[float] = None
+    branch_coverage: typing.Optional[float] = None
+    function_coverage: typing.Optional[float] = None
+    visible_files_tested: typing.List[str]
+
+
+class PRFacts(BaseModel):
+    platform: typing.Optional[str] = None
+    pr_number: typing.Optional[str] = None
+    author_username: typing.Optional[str] = None
+    reviewer_usernames: typing.List[str]
+    status: typing.Optional[str] = None
+    base_branch: typing.Optional[str] = None
+    status_checks_passing: typing.Optional[bool] = None
 
 
 class Rule(BaseModel):

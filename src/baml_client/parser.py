@@ -25,15 +25,27 @@ class LlmResponseParser:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def EvaluateImage(
+    def EvaluateCompliance(
         self,
         llm_response: str,
         baml_options: BamlCallOptions = {},
-    ) -> types.ControlEvaluationResult:
+    ) -> typing.List["types.RuleEvaluation"]:
         result = self.__options.merge_options(baml_options).parse_response(
-            function_name="EvaluateImage", llm_response=llm_response, mode="request"
+            function_name="EvaluateCompliance",
+            llm_response=llm_response,
+            mode="request",
         )
-        return typing.cast(types.ControlEvaluationResult, result)
+        return typing.cast(typing.List["types.RuleEvaluation"], result)
+
+    def ExtractCIFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.CIFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractCIFacts", llm_response=llm_response, mode="request"
+        )
+        return typing.cast(types.CIFacts, result)
 
     def ExtractControl(
         self,
@@ -45,6 +57,40 @@ class LlmResponseParser:
         )
         return typing.cast(types.Control, result)
 
+    def ExtractCoverageFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.CoverageFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractCoverageFacts",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.CoverageFacts, result)
+
+    def ExtractPRFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.PRFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractPRFacts", llm_response=llm_response, mode="request"
+        )
+        return typing.cast(types.PRFacts, result)
+
+    def IdentifyEvidenceType(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.EvidenceType:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="IdentifyEvidenceType",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.EvidenceType, result)
+
 
 class LlmStreamParser:
     __options: DoNotUseDirectlyCallManager
@@ -52,15 +98,25 @@ class LlmStreamParser:
     def __init__(self, options: DoNotUseDirectlyCallManager):
         self.__options = options
 
-    def EvaluateImage(
+    def EvaluateCompliance(
         self,
         llm_response: str,
         baml_options: BamlCallOptions = {},
-    ) -> stream_types.ControlEvaluationResult:
+    ) -> typing.List["stream_types.RuleEvaluation"]:
         result = self.__options.merge_options(baml_options).parse_response(
-            function_name="EvaluateImage", llm_response=llm_response, mode="stream"
+            function_name="EvaluateCompliance", llm_response=llm_response, mode="stream"
         )
-        return typing.cast(stream_types.ControlEvaluationResult, result)
+        return typing.cast(typing.List["stream_types.RuleEvaluation"], result)
+
+    def ExtractCIFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.CIFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractCIFacts", llm_response=llm_response, mode="stream"
+        )
+        return typing.cast(stream_types.CIFacts, result)
 
     def ExtractControl(
         self,
@@ -71,3 +127,37 @@ class LlmStreamParser:
             function_name="ExtractControl", llm_response=llm_response, mode="stream"
         )
         return typing.cast(stream_types.Control, result)
+
+    def ExtractCoverageFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.CoverageFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractCoverageFacts",
+            llm_response=llm_response,
+            mode="stream",
+        )
+        return typing.cast(stream_types.CoverageFacts, result)
+
+    def ExtractPRFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.PRFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractPRFacts", llm_response=llm_response, mode="stream"
+        )
+        return typing.cast(stream_types.PRFacts, result)
+
+    def IdentifyEvidenceType(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.EvidenceType:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="IdentifyEvidenceType",
+            llm_response=llm_response,
+            mode="stream",
+        )
+        return typing.cast(types.EvidenceType, result)

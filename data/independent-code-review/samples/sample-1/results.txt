@@ -1,0 +1,308 @@
+================================================================================
+COMBINED RESULTS
+================================================================================
+
+[1] Screenshot 2025-11-14 at 14-27-50 Coverage Report.png
+--------------------------------------------------------------------------------
+[
+  {
+    "rule_id": "COV-UNIT-01",
+    "status": "FAIL",
+    "reasoning": "The rule requires 80% unit test code coverage for changed/new code. The facts indicate 'overall_line_coverage' is 95.96 but there's no data on 'new_code_line_coverage', hence compliance cannot be conclusively determined. Given the missing specific metric, it is a FAIL."
+  },
+  {
+    "rule_id": "COV-BRANCH-01",
+    "status": "PASS",
+    "reasoning": "The rule mandates a minimum 70% branch coverage. The facts show 'branch_coverage' as 89.48, meeting the requirement."
+  },
+  {
+    "rule_id": "COV-FUNC-01",
+    "status": "PASS",
+    "reasoning": "The rule mandates a minimum 80% function coverage. The facts show 'function_coverage' as 94.79, meeting the requirement."
+  },
+  {
+    "rule_id": "COV-CRIT-PAYMENT-01",
+    "status": "N/A",
+    "reasoning": "The rule requires 100% coverage for payment flows, but there is no indication from the facts that payment flows are affected in this context."
+  },
+  {
+    "rule_id": "COV-CRIT-AUTH-01",
+    "status": "N/A",
+    "reasoning": "The rule requires 100% coverage for authentication flows. There is no indication from the facts that authentication flows are affected."
+  },
+  {
+    "rule_id": "COV-CRIT-SEC-01",
+    "status": "N/A",
+    "reasoning": "The rule requires 100% coverage for security-sensitive flows. There is no indication from the facts that security-sensitive flows are affected."
+  },
+  {
+    "rule_id": "REPORT-01",
+    "status": "FAIL",
+    "reasoning": "The rule requires generation, attachment, and review of coverage reports. The facts do not provide information on coverage report generation or review, resulting in a failure to meet the rule."
+  },
+  {
+    "rule_id": "PR-STATUS-01",
+    "status": "N/A",
+    "reasoning": "The rule requires visibility of test results and status checks on the PR. No context provided about open PR or its conditions."
+  }
+]
+
+[2] Screenshot 2025-11-14 at 14-28-31 Shrink relationComplexityError test size by jakebailey · Pull Request #62754 · microsoft_TypeScript.png
+--------------------------------------------------------------------------------
+[
+  {
+    "rule_id": "CR-01",
+    "status": "PASS",
+    "reasoning": "The PR targeted the main branch and there was a review performed, indicated by the presence of reviewers."
+  },
+  {
+    "rule_id": "CR-02",
+    "status": "PASS",
+    "reasoning": "At least one reviewer, RyanCavanaugh, is independent of the author, jkaleab."
+  },
+  {
+    "rule_id": "COV-UNIT-01",
+    "status": "N/A",
+    "reasoning": "There is no information provided regarding unit test coverage levels or whether the changes contain code."
+  },
+  {
+    "rule_id": "COV-INTEG-01",
+    "status": "N/A",
+    "reasoning": "There is no information on whether the PR affects integration points."
+  },
+  {
+    "rule_id": "COV-CRIT-PAYMENT-01",
+    "status": "N/A",
+    "reasoning": "There is no indication that the PR affects payment features or contains relevant file paths."
+  },
+  {
+    "rule_id": "COV-CRIT-AUTH-01",
+    "status": "N/A",
+    "reasoning": "There is no indication that the PR affects authentication features or contains relevant file paths."
+  },
+  {
+    "rule_id": "COV-CRIT-SEC-01",
+    "status": "N/A",
+    "reasoning": "There is no indication that the PR affects security features or contains relevant file paths."
+  },
+  {
+    "rule_id": "COV-BRANCH-01",
+    "status": "N/A",
+    "reasoning": "There is no information on code changes and branch coverage."
+  },
+  {
+    "rule_id": "COV-FUNC-01",
+    "status": "N/A",
+    "reasoning": "There is no information on code changes and function coverage."
+  },
+  {
+    "rule_id": "REPORT-01",
+    "status": "N/A",
+    "reasoning": "The rule applies while the PR is open. Since the PR is already merged, no compliance check is possible."
+  },
+  {
+    "rule_id": "TST-UNIT-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information provided on the status of unit tests and failure count."
+  },
+  {
+    "rule_id": "TST-INTEG-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information provided on the status of integration tests."
+  },
+  {
+    "rule_id": "TST-E2E-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information provided on whether the PR affects critical user journeys or the status of E2E tests."
+  },
+  {
+    "rule_id": "TST-PERF-01",
+    "status": "N/A",
+    "reasoning": "There is no indication provided that performance testing was required for this PR."
+  },
+  {
+    "rule_id": "TST-SEC-01",
+    "status": "N/A",
+    "reasoning": "No information provided on whether a security scan was conducted and approved."
+  },
+  {
+    "rule_id": "ENV-01",
+    "status": "N/A",
+    "reasoning": "No information on CI pipeline deployment or the environment status provided."
+  },
+  {
+    "rule_id": "PR-STATUS-01",
+    "status": "N/A",
+    "reasoning": "The rule applies while the PR is open. Since the PR is already merged, no compliance check is possible."
+  },
+  {
+    "rule_id": "FLAKY-BLOCK-01",
+    "status": "N/A",
+    "reasoning": "No information regarding flaky tests is provided."
+  },
+  {
+    "rule_id": "FLAKY-AUD-01",
+    "status": "N/A",
+    "reasoning": "No information regarding flaky tests is provided."
+  },
+  {
+    "rule_id": "TEST-FAIL-FIX-01",
+    "status": "N/A",
+    "reasoning": "No information provided on the number of test failures."
+  },
+  {
+    "rule_id": "TEST-MAINT-OBSO-01",
+    "status": "N/A",
+    "reasoning": "No information on obsolete tests is provided."
+  },
+  {
+    "rule_id": "TEST-MAINT-QA-01",
+    "status": "N/A",
+    "reasoning": "No information on test code quality is provided."
+  },
+  {
+    "rule_id": "POLICY-REVIEW-01",
+    "status": "N/A",
+    "reasoning": "There is no information about the testing policy review in the provided context."
+  },
+  {
+    "rule_id": "BUG-01",
+    "status": "N/A",
+    "reasoning": "No information on open issues in the issue tracker is provided."
+  },
+  {
+    "rule_id": "SMOKE-01",
+    "status": "N/A",
+    "reasoning": "There is no information on whether critical feature smoke tests were performed."
+  }
+]
+
+[3] Screenshot 2025-11-14 at 14-29-21 Shrink relationComplexityError test size · microsoft_TypeScript@9e76dd2.png
+--------------------------------------------------------------------------------
+[
+  {
+    "rule_id": "CR-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the target branch or code review."
+  },
+  {
+    "rule_id": "CR-02",
+    "status": "N/A",
+    "reasoning": "No information provided about the target branch or independent approval."
+  },
+  {
+    "rule_id": "COV-UNIT-01",
+    "status": "N/A",
+    "reasoning": "No information provided about changes in the code or the unit test coverage percentage."
+  },
+  {
+    "rule_id": "COV-INTEG-01",
+    "status": "N/A",
+    "reasoning": "No information provided regarding integration changes or coverage percentage."
+  },
+  {
+    "rule_id": "COV-CRIT-PAYMENT-01",
+    "status": "N/A",
+    "reasoning": "No information provided about affected features related to payment or coverage."
+  },
+  {
+    "rule_id": "COV-CRIT-AUTH-01",
+    "status": "N/A",
+    "reasoning": "No information provided about affected features related to authentication or coverage."
+  },
+  {
+    "rule_id": "COV-CRIT-SEC-01",
+    "status": "N/A",
+    "reasoning": "No information provided about affected features related to security or coverage."
+  },
+  {
+    "rule_id": "COV-BRANCH-01",
+    "status": "N/A",
+    "reasoning": "No information provided about changes in the code or branch coverage percentage."
+  },
+  {
+    "rule_id": "COV-FUNC-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the changes in the code or function coverage percentage."
+  },
+  {
+    "rule_id": "REPORT-01",
+    "status": "N/A",
+    "reasoning": "No information provided regarding the state of the PR or coverage report handling."
+  },
+  {
+    "rule_id": "TST-UNIT-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the target branch or unit test results."
+  },
+  {
+    "rule_id": "TST-INTEG-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the target branch or integration test results."
+  },
+  {
+    "rule_id": "TST-E2E-RUN-01",
+    "status": "N/A",
+    "reasoning": "No information provided about whether critical user journeys are affected."
+  },
+  {
+    "rule_id": "TST-PERF-01",
+    "status": "N/A",
+    "reasoning": "No information on whether performance tests were required."
+  },
+  {
+    "rule_id": "TST-SEC-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the target branch or security scan reviews."
+  },
+  {
+    "rule_id": "ENV-01",
+    "status": "N/A",
+    "reasoning": "No information available regarding whether a merge attempt required CI testing in a clean environment."
+  },
+  {
+    "rule_id": "PR-STATUS-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the PR status checks."
+  },
+  {
+    "rule_id": "FLAKY-BLOCK-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the presence of flaky tests."
+  },
+  {
+    "rule_id": "FLAKY-AUD-01",
+    "status": "N/A",
+    "reasoning": "No information available about the existence or handling of flaky tests."
+  },
+  {
+    "rule_id": "TEST-FAIL-FIX-01",
+    "status": "N/A",
+    "reasoning": "No information provided about the target branch or failing tests."
+  },
+  {
+    "rule_id": "TEST-MAINT-OBSO-01",
+    "status": "N/A",
+    "reasoning": "No information available about obsolete tests."
+  },
+  {
+    "rule_id": "TEST-MAINT-QA-01",
+    "status": "N/A",
+    "reasoning": "No information available about test code quality."
+  },
+  {
+    "rule_id": "POLICY-REVIEW-01",
+    "status": "N/A",
+    "reasoning": "No information provided about policy reviews."
+  },
+  {
+    "rule_id": "BUG-01",
+    "status": "N/A",
+    "reasoning": "No information provided about open issues related to critical or high-severity bugs."
+  },
+  {
+    "rule_id": "SMOKE-01",
+    "status": "N/A",
+    "reasoning": "No information provided about critical features or manual smoke tests."
+  }
+]
