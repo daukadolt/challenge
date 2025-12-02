@@ -20,6 +20,7 @@ This repository contains the solution for the Bead Audit Agent Challenge. The so
 2. **Install dependencies:**
    ```bash
    uv sync
+   source .venv/bin/activate
    ```
 
 3. **Environment Setup:**
