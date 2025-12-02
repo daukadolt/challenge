@@ -64,7 +64,7 @@ The tool processes each sample in the target directory and generates an assessme
 - `data/`: Sample data and control definitions.
 
 ## How it works
-1. **Control Parsing**: The system reads the `control.json` or `control.md` to understand the audit requirements.
+1. **Control Parsing**: The system reads audit requirements. On the first run, it merges all Markdown control files to construct the control definition and caches it in `control.json` for subsequent runs.
 2. **Evidence Analysis**: It iterates through sample folders, analyzing evidence (screenshots).
 3. **Verification**: Using LLMs defined via BAML, it compares the evidence against the control rules to determine compliance (SUCCESS, FAIL, or FURTHER_EVIDENCE_REQUIRED).
 4. **Reconciliation**: It aggregates results across all evidence for a sample and generates a final report.
