@@ -74,7 +74,7 @@ class Rule(BaseModel):
 
 class RuleEvaluation(BaseModel):
     rule_id: typing.Optional[str] = None
-    status: typing.Optional[str] = None
+    status: typing.Optional[types.RuleStatus] = None
     reasoning: typing.Optional[str] = None
 
 

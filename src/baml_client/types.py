@@ -44,7 +44,7 @@ def all_succeeded(checks: typing.Dict[CheckName, Check]) -> bool:
 
 
 # #########################################################################
-# Generated enums (2)
+# Generated enums (3)
 # #########################################################################
 
 
@@ -53,6 +53,13 @@ class EvidenceType(str, Enum):
     CoverageReport = "CoverageReport"
     CIPipeline = "CIPipeline"
     Unknown = "Unknown"
+
+
+class RuleStatus(str, Enum):
+    PASS = "PASS"
+    FAIL = "FAIL"
+    MORE_INFOMATION_NEEDED = "MORE_INFOMATION_NEEDED"
+    NA = "NA"
 
 
 class RuleType(str, Enum):
@@ -108,7 +115,7 @@ class Rule(BaseModel):
 
 class RuleEvaluation(BaseModel):
     rule_id: str
-    status: str
+    status: RuleStatus
     reasoning: str
 
 

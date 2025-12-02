@@ -28,5 +28,6 @@ type_map = {
     "types.RuleEvaluation": types.RuleEvaluation,
     "stream_types.RuleEvaluation": stream_types.RuleEvaluation,
     "types.EvidenceType": types.EvidenceType,
+    "types.RuleStatus": types.RuleStatus,
     "types.RuleType": types.RuleType,
 }

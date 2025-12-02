@@ -35,6 +35,7 @@ class TypeBuilder(type_builder.TypeBuilder):
             enums=set(
                 [
                     "EvidenceType",
+                    "RuleStatus",
                     "RuleType",
                 ]
             ),
@@ -42,12 +43,16 @@ class TypeBuilder(type_builder.TypeBuilder):
         )
 
     # #########################################################################
-    # Generated enums 2
+    # Generated enums 3
     # #########################################################################
 
     @property
     def EvidenceType(self) -> "EvidenceTypeViewer":
         return EvidenceTypeViewer(self)
+
+    @property
+    def RuleStatus(self) -> "RuleStatusViewer":
+        return RuleStatusViewer(self)
 
     @property
     def RuleType(self) -> "RuleTypeViewer":
@@ -83,7 +88,7 @@ class TypeBuilder(type_builder.TypeBuilder):
 
 
 # #########################################################################
-# Generated enums 2
+# Generated enums 3
 # #########################################################################
 
 
@@ -142,6 +147,63 @@ class EvidenceTypeValues:
     @property
     def Unknown(self) -> type_builder.EnumValueViewer:
         return type_builder.EnumValueViewer(self.__bldr.value("Unknown"))
+
+
+class RuleStatusAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.enum("RuleStatus")
+        self._values: typing.Set[str] = set(
+            [
+                "PASS",
+                "FAIL",
+                "MORE_INFOMATION_NEEDED",
+                "NA",
+            ]
+        )
+        self._vals = RuleStatusValues(self._bldr, self._values)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def values(self) -> "RuleStatusValues":
+        return self._vals
+
+
+class RuleStatusViewer(RuleStatusAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_values(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.EnumValueViewer]]:
+        return [
+            (name, type_builder.EnumValueViewer(self._bldr.value(name)))
+            for name in self._values
+        ]
+
+
+class RuleStatusValues:
+    def __init__(self, enum_bldr: baml_py.EnumBuilder, values: typing.Set[str]):
+        self.__bldr = enum_bldr
+        self.__values = values  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def PASS(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("PASS"))
+
+    @property
+    def FAIL(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("FAIL"))
+
+    @property
+    def MORE_INFOMATION_NEEDED(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("MORE_INFOMATION_NEEDED"))
+
+    @property
+    def NA(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("NA"))
 
 
 class RuleTypeAst:

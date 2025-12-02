@@ -33,9 +33,16 @@ class Control {
     rules Rule[]
 }
 
+enum RuleStatus {
+    PASS
+    FAIL
+    MORE_INFOMATION_NEEDED
+    NA @alias("N/A")
+}
+
 class RuleEvaluation {
     rule_id string 
-    status string @description("PASS, FAIL, or N/A")
+    status RuleStatus
     reasoning string 
 }
 function EvaluateCompliance(facts: string, control: Control) -> RuleEvaluation[] {
