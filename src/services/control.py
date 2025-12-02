@@ -19,6 +19,11 @@ def init_control(control_dir: Path) -> Control:
 
     md_files = sorted(control_dir.glob("*.md"))
 
+    if len(md_files) == 0:
+        raise Exception(
+            "No markdown files present in the root folder of the control, aborting..."
+        )
+
     combined_content = []
 
     for file_path in md_files:
