@@ -4,27 +4,27 @@
 ## Rule Reconciliation Summary
 | Rule ID | Type | Verdict | Reason |
 | :--- | :--- | :--- | :--- |
-| CR-01 | RuleType.Blocking | PASS | The PR targets the 'main' branch and has a completed code review, satisfying the rule. |
-| CR-02 | RuleType.Blocking | PASS | The code review was completed by an independent reviewer 'dsherret', different from the PR author 'b... |
-| CR-03 | RuleType.Blocking | MISSING_EVIDENCE | While the review was completed, there's no specific evidence that approvals are recorded in the syst... |
-| TEST-01 | RuleType.Blocking | MISSING_EVIDENCE | The evidence does not provide information about unit test coverage for new code. |
-| TEST-02 | RuleType.Blocking | MISSING_EVIDENCE | There's no evidence of integration test coverage for critical integration points or applicable excep... |
-| TEST-03 | RuleType.Blocking | MISSING_EVIDENCE | No information is provided regarding the file paths or if critical security/payment/authentication p... |
-| TEST-04 | RuleType.Blocking | MISSING_EVIDENCE | There's no evidence showing that coverage reports are attached to the code review. |
-| TEST-05 | RuleType.Blocking | MISSING_EVIDENCE | No data provided regarding the branch coverage percentage. |
-| TEST-06 | RuleType.Blocking | MISSING_EVIDENCE | No data provided regarding the function coverage percentage. |
-| TEST-07 | RuleType.Blocking | MISSING_EVIDENCE | The evidence does not include specific results about unit tests with zero failures. |
-| TEST-08 | RuleType.Blocking | MISSING_EVIDENCE | There's no indication of integration test results concerning the change. |
-| TEST-09 | RuleType.Blocking | MISSING_EVIDENCE | No evidence that critical end-to-end user journeys affected by changes have passed. |
-| TEST-10 | RuleType.Blocking | MISSING_EVIDENCE | Performance test relevance and results are not assessed in the present evidence. |
-| TEST-11 | RuleType.Blocking | MISSING_EVIDENCE | There's no evidence of a security scan run, reviewed, or approved recorded. |
-| TEST-12 | RuleType.Blocking | MISSING_EVIDENCE | The information given doesn't detail the CI/CD pipeline environment regarding cached dependencies. |
-| TEST-13 | RuleType.Blocking | MISSING_EVIDENCE | The evidence doesn't confirm the visibility of test results as PR status checks. |
-| TEST-14 | RuleType.Blocking | MISSING_EVIDENCE | There's no information concerning flaky tests or rectification efforts provided in the evidence. |
-| TQ-01 | RuleType.Audit | NOT_APPLICABLE | This rule is categorized as an audit and doesn't block the merging process. |
-| TQ-02 | RuleType.Audit | NOT_APPLICABLE | This rule is categorized as an audit and doesn't block the merging process. |
-| TM-01 | RuleType.Audit | NOT_APPLICABLE | This is an audit measure not readily applicable to the immediate PR evaluation. |
-| POLICY-01 | RuleType.Audit | NOT_APPLICABLE | This is a policy audit rule unrelated to the PR and its merging status. |
+| CR-01 | RuleType.Blocking | PASS | The PR targets the 'main' branch and a review is completed before merge as shown by 'status: Merged'... |
+| CR-02 | RuleType.Blocking | PASS | The reviewer '.ashernet' is independent and is not the author 'bartlomieju', fulfilling the four-eye... |
+| CR-03 | RuleType.Blocking | PASS | The review is recorded in the system and status checks are passing as noted in Evidence Item 2. |
+| TEST-01 | RuleType.Blocking | MISSING_EVIDENCE | There is no information regarding unit test coverage for new code. |
+| TEST-02 | RuleType.Blocking | MISSING_EVIDENCE | There is no information about integration test coverage for critical integration points. |
+| TEST-03 | RuleType.Blocking | MISSING_EVIDENCE | There is no information about line coverage for critical security/payment/authentication paths. |
+| TEST-04 | RuleType.Blocking | MISSING_EVIDENCE | No information confirming that coverage reports are attached to the code review. |
+| TEST-05 | RuleType.Blocking | MISSING_EVIDENCE | No evidence regarding branch coverage percentage provided. |
+| TEST-06 | RuleType.Blocking | MISSING_EVIDENCE | No evidence regarding function coverage percentage provided. |
+| TEST-07 | RuleType.Blocking | MISSING_EVIDENCE | No evidence provided about unit tests passing before release/merge. |
+| TEST-08 | RuleType.Blocking | MISSING_EVIDENCE | No evidence provided regarding the passing status of integration tests. |
+| TEST-09 | RuleType.Blocking | MISSING_EVIDENCE | No information on critical end-to-end user journeys related to the change. |
+| TEST-10 | RuleType.Blocking | MISSING_EVIDENCE | No data on whether the change affects performance or performance tests are applicable. |
+| TEST-11 | RuleType.Blocking | MISSING_EVIDENCE | No information about security scans being run and approved for this PR. |
+| TEST-12 | RuleType.Blocking | MISSING_EVIDENCE | No evidence' about CI/CD pipeline being executed in a clean environment. |
+| TEST-13 | RuleType.Blocking | PASS | All status checks are passing as indicated by the 'status_checks_passing: true' in Evidence Item 2. |
+| TEST-14 | RuleType.Blocking | MISSING_EVIDENCE | No information on flaky tests or their resolution provided. |
+| TQ-01 | RuleType.Audit | NOT_APPLICABLE | This is an audit rule and evidence provided does not address it directly. |
+| TQ-02 | RuleType.Audit | NOT_APPLICABLE | This is an audit rule and evidence provided does not address it directly. |
+| TM-01 | RuleType.Audit | NOT_APPLICABLE | This is an audit rule and evidence provided does not address it directly. |
+| POLICY-01 | RuleType.Audit | NOT_APPLICABLE | This is an audit rule for policy review and not directly applicable to the PR or test evidence. |
 
 ## Detailed Evidence Logs
 Total Evidence Items Processed: 2
@@ -50,9 +50,9 @@ Total Evidence Items Processed: 2
 {
   "platform": "GitHub",
   "pr_number": "31272",
-  "author_username": "bartlomiej",
+  "author_username": "bartlomieju",
   "reviewer_usernames": [
-    "dsherret"
+    ".ashernet"
   ],
   "status": "Merged",
   "base_branch": "main",

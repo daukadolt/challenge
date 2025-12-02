@@ -187,17 +187,19 @@ def process_sample(sample_dir: Path, control: Control) -> None:
             elif category == "pdf":
                 with open(file_path, "rb") as f:
                     encoded = base64.b64encode(f.read()).decode("utf-8")
-                ev_input.pdf_file = Pdf.from_base64(mime_type, encoded)
+                ev_input.pdf_file = Pdf.from_base64(encoded)
 
-            elif category == "audio":
-                with open(file_path, "rb") as f:
-                    encoded = base64.b64encode(f.read()).decode("utf-8")
-                ev_input.audio_file = Audio.from_base64(mime_type, encoded)
+            # TODO: this'll need more support
 
-            elif category == "video":
-                with open(file_path, "rb") as f:
-                    encoded = base64.b64encode(f.read()).decode("utf-8")
-                ev_input.video_file = Video.from_base64(mime_type, encoded)
+            # elif category == "audio":
+            #     with open(file_path, "rb") as f:
+            #         encoded = base64.b64encode(f.read()).decode("utf-8")
+            #     ev_input.audio_file = Audio.from_base64(mime_type, encoded)
+
+            # elif category == "video":
+            #     with open(file_path, "rb") as f:
+            #         encoded = base64.b64encode(f.read()).decode("utf-8")
+            #     ev_input.video_file = Video.from_base64(mime_type, encoded)
 
             elif category == "text":
                 # errors='replace' is safer for logs with weird characters
