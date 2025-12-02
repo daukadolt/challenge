@@ -47,6 +47,18 @@ class LlmResponseParser:
         )
         return typing.cast(types.CIFacts, result)
 
+    def ExtractCommitFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.CommitFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractCommitFacts",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.CommitFacts, result)
+
     def ExtractControl(
         self,
         llm_response: str,
@@ -69,6 +81,18 @@ class LlmResponseParser:
         )
         return typing.cast(types.CoverageFacts, result)
 
+    def ExtractIssueBoardFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.IssueBoardFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractIssueBoardFacts",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.IssueBoardFacts, result)
+
     def ExtractPRFacts(
         self,
         llm_response: str,
@@ -78,6 +102,42 @@ class LlmResponseParser:
             function_name="ExtractPRFacts", llm_response=llm_response, mode="request"
         )
         return typing.cast(types.PRFacts, result)
+
+    def ExtractPerformanceFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.PerformanceFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractPerformanceFacts",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.PerformanceFacts, result)
+
+    def ExtractSecurityFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.SecurityFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractSecurityFacts",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.SecurityFacts, result)
+
+    def ExtractTestResultFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> types.TestResultFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractTestResultFacts",
+            llm_response=llm_response,
+            mode="request",
+        )
+        return typing.cast(types.TestResultFacts, result)
 
     def IdentifyEvidenceType(
         self,
@@ -118,6 +178,16 @@ class LlmStreamParser:
         )
         return typing.cast(stream_types.CIFacts, result)
 
+    def ExtractCommitFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.CommitFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractCommitFacts", llm_response=llm_response, mode="stream"
+        )
+        return typing.cast(stream_types.CommitFacts, result)
+
     def ExtractControl(
         self,
         llm_response: str,
@@ -140,6 +210,18 @@ class LlmStreamParser:
         )
         return typing.cast(stream_types.CoverageFacts, result)
 
+    def ExtractIssueBoardFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.IssueBoardFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractIssueBoardFacts",
+            llm_response=llm_response,
+            mode="stream",
+        )
+        return typing.cast(stream_types.IssueBoardFacts, result)
+
     def ExtractPRFacts(
         self,
         llm_response: str,
@@ -149,6 +231,42 @@ class LlmStreamParser:
             function_name="ExtractPRFacts", llm_response=llm_response, mode="stream"
         )
         return typing.cast(stream_types.PRFacts, result)
+
+    def ExtractPerformanceFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.PerformanceFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractPerformanceFacts",
+            llm_response=llm_response,
+            mode="stream",
+        )
+        return typing.cast(stream_types.PerformanceFacts, result)
+
+    def ExtractSecurityFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.SecurityFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractSecurityFacts",
+            llm_response=llm_response,
+            mode="stream",
+        )
+        return typing.cast(stream_types.SecurityFacts, result)
+
+    def ExtractTestResultFacts(
+        self,
+        llm_response: str,
+        baml_options: BamlCallOptions = {},
+    ) -> stream_types.TestResultFacts:
+        result = self.__options.merge_options(baml_options).parse_response(
+            function_name="ExtractTestResultFacts",
+            llm_response=llm_response,
+            mode="stream",
+        )
+        return typing.cast(stream_types.TestResultFacts, result)
 
     def IdentifyEvidenceType(
         self,

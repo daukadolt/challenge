@@ -90,7 +90,7 @@ class BamlAsyncClient:
 
     async def EvaluateCompliance(
         self,
-        facts: str,
+        facts_list: typing.List[str],
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> typing.List["types.RuleEvaluation"]:
@@ -98,7 +98,7 @@ class BamlAsyncClient:
         if "on_tick" in baml_options:
             # Use streaming internally when on_tick is provided
             stream = self.stream.EvaluateCompliance(
-                facts=facts, control=control, baml_options=baml_options
+                facts_list=facts_list, control=control, baml_options=baml_options
             )
             return await stream.get_final_response()
         else:
@@ -108,7 +108,7 @@ class BamlAsyncClient:
             ).call_function_async(
                 function_name="EvaluateCompliance",
                 args={
-                    "facts": facts,
+                    "facts_list": facts_list,
                     "control": control,
                 },
             )
@@ -119,13 +119,13 @@ class BamlAsyncClient:
 
     async def ExtractCIFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> types.CIFacts:
         # Check if on_tick is provided
         if "on_tick" in baml_options:
             # Use streaming internally when on_tick is provided
-            stream = self.stream.ExtractCIFacts(img=img, baml_options=baml_options)
+            stream = self.stream.ExtractCIFacts(input=input, baml_options=baml_options)
             return await stream.get_final_response()
         else:
             # Original non-streaming code
@@ -134,11 +134,38 @@ class BamlAsyncClient:
             ).call_function_async(
                 function_name="ExtractCIFacts",
                 args={
-                    "img": img,
+                    "input": input,
                 },
             )
             return typing.cast(
                 types.CIFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    async def ExtractCommitFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> types.CommitFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            # Use streaming internally when on_tick is provided
+            stream = self.stream.ExtractCommitFacts(
+                input=input, baml_options=baml_options
+            )
+            return await stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = await self.__options.merge_options(
+                baml_options
+            ).call_function_async(
+                function_name="ExtractCommitFacts",
+                args={
+                    "input": input,
+                },
+            )
+            return typing.cast(
+                types.CommitFacts,
                 result.cast_to(types, types, stream_types, False, __runtime__),
             )
 
@@ -171,14 +198,14 @@ class BamlAsyncClient:
 
     async def ExtractCoverageFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> types.CoverageFacts:
         # Check if on_tick is provided
         if "on_tick" in baml_options:
             # Use streaming internally when on_tick is provided
             stream = self.stream.ExtractCoverageFacts(
-                img=img, baml_options=baml_options
+                input=input, baml_options=baml_options
             )
             return await stream.get_final_response()
         else:
@@ -188,7 +215,7 @@ class BamlAsyncClient:
             ).call_function_async(
                 function_name="ExtractCoverageFacts",
                 args={
-                    "img": img,
+                    "input": input,
                 },
             )
             return typing.cast(
@@ -196,15 +223,42 @@ class BamlAsyncClient:
                 result.cast_to(types, types, stream_types, False, __runtime__),
             )
 
+    async def ExtractIssueBoardFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> types.IssueBoardFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            # Use streaming internally when on_tick is provided
+            stream = self.stream.ExtractIssueBoardFacts(
+                input=input, baml_options=baml_options
+            )
+            return await stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = await self.__options.merge_options(
+                baml_options
+            ).call_function_async(
+                function_name="ExtractIssueBoardFacts",
+                args={
+                    "input": input,
+                },
+            )
+            return typing.cast(
+                types.IssueBoardFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
     async def ExtractPRFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> types.PRFacts:
         # Check if on_tick is provided
         if "on_tick" in baml_options:
             # Use streaming internally when on_tick is provided
-            stream = self.stream.ExtractPRFacts(img=img, baml_options=baml_options)
+            stream = self.stream.ExtractPRFacts(input=input, baml_options=baml_options)
             return await stream.get_final_response()
         else:
             # Original non-streaming code
@@ -213,7 +267,7 @@ class BamlAsyncClient:
             ).call_function_async(
                 function_name="ExtractPRFacts",
                 args={
-                    "img": img,
+                    "input": input,
                 },
             )
             return typing.cast(
@@ -221,16 +275,97 @@ class BamlAsyncClient:
                 result.cast_to(types, types, stream_types, False, __runtime__),
             )
 
+    async def ExtractPerformanceFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> types.PerformanceFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            # Use streaming internally when on_tick is provided
+            stream = self.stream.ExtractPerformanceFacts(
+                input=input, baml_options=baml_options
+            )
+            return await stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = await self.__options.merge_options(
+                baml_options
+            ).call_function_async(
+                function_name="ExtractPerformanceFacts",
+                args={
+                    "input": input,
+                },
+            )
+            return typing.cast(
+                types.PerformanceFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    async def ExtractSecurityFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> types.SecurityFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            # Use streaming internally when on_tick is provided
+            stream = self.stream.ExtractSecurityFacts(
+                input=input, baml_options=baml_options
+            )
+            return await stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = await self.__options.merge_options(
+                baml_options
+            ).call_function_async(
+                function_name="ExtractSecurityFacts",
+                args={
+                    "input": input,
+                },
+            )
+            return typing.cast(
+                types.SecurityFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
+    async def ExtractTestResultFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> types.TestResultFacts:
+        # Check if on_tick is provided
+        if "on_tick" in baml_options:
+            # Use streaming internally when on_tick is provided
+            stream = self.stream.ExtractTestResultFacts(
+                input=input, baml_options=baml_options
+            )
+            return await stream.get_final_response()
+        else:
+            # Original non-streaming code
+            result = await self.__options.merge_options(
+                baml_options
+            ).call_function_async(
+                function_name="ExtractTestResultFacts",
+                args={
+                    "input": input,
+                },
+            )
+            return typing.cast(
+                types.TestResultFacts,
+                result.cast_to(types, types, stream_types, False, __runtime__),
+            )
+
     async def IdentifyEvidenceType(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> types.EvidenceType:
         # Check if on_tick is provided
         if "on_tick" in baml_options:
             # Use streaming internally when on_tick is provided
             stream = self.stream.IdentifyEvidenceType(
-                img=img, baml_options=baml_options
+                input=input, baml_options=baml_options
             )
             return await stream.get_final_response()
         else:
@@ -240,7 +375,7 @@ class BamlAsyncClient:
             ).call_function_async(
                 function_name="IdentifyEvidenceType",
                 args={
-                    "img": img,
+                    "input": input,
                 },
             )
             return typing.cast(
@@ -257,7 +392,7 @@ class BamlStreamClient:
 
     def EvaluateCompliance(
         self,
-        facts: str,
+        facts_list: typing.List[str],
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[
@@ -266,7 +401,7 @@ class BamlStreamClient:
         ctx, result = self.__options.merge_options(baml_options).create_async_stream(
             function_name="EvaluateCompliance",
             args={
-                "facts": facts,
+                "facts_list": facts_list,
                 "control": control,
             },
         )
@@ -288,13 +423,13 @@ class BamlStreamClient:
 
     def ExtractCIFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.CIFacts, types.CIFacts]:
         ctx, result = self.__options.merge_options(baml_options).create_async_stream(
             function_name="ExtractCIFacts",
             args={
-                "img": img,
+                "input": input,
             },
         )
         return baml_py.BamlStream[stream_types.CIFacts, types.CIFacts](
@@ -305,6 +440,30 @@ class BamlStreamClient:
             ),
             lambda x: typing.cast(
                 types.CIFacts, x.cast_to(types, types, stream_types, False, __runtime__)
+            ),
+            ctx,
+        )
+
+    def ExtractCommitFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.CommitFacts, types.CommitFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
+            function_name="ExtractCommitFacts",
+            args={
+                "input": input,
+            },
+        )
+        return baml_py.BamlStream[stream_types.CommitFacts, types.CommitFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.CommitFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.CommitFacts,
+                x.cast_to(types, types, stream_types, False, __runtime__),
             ),
             ctx,
         )
@@ -334,13 +493,13 @@ class BamlStreamClient:
 
     def ExtractCoverageFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.CoverageFacts, types.CoverageFacts]:
         ctx, result = self.__options.merge_options(baml_options).create_async_stream(
             function_name="ExtractCoverageFacts",
             args={
-                "img": img,
+                "input": input,
             },
         )
         return baml_py.BamlStream[stream_types.CoverageFacts, types.CoverageFacts](
@@ -356,15 +515,39 @@ class BamlStreamClient:
             ctx,
         )
 
+    def ExtractIssueBoardFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.IssueBoardFacts, types.IssueBoardFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
+            function_name="ExtractIssueBoardFacts",
+            args={
+                "input": input,
+            },
+        )
+        return baml_py.BamlStream[stream_types.IssueBoardFacts, types.IssueBoardFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.IssueBoardFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.IssueBoardFacts,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
     def ExtractPRFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[stream_types.PRFacts, types.PRFacts]:
         ctx, result = self.__options.merge_options(baml_options).create_async_stream(
             function_name="ExtractPRFacts",
             args={
-                "img": img,
+                "input": input,
             },
         )
         return baml_py.BamlStream[stream_types.PRFacts, types.PRFacts](
@@ -379,15 +562,89 @@ class BamlStreamClient:
             ctx,
         )
 
+    def ExtractPerformanceFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.PerformanceFacts, types.PerformanceFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
+            function_name="ExtractPerformanceFacts",
+            args={
+                "input": input,
+            },
+        )
+        return baml_py.BamlStream[
+            stream_types.PerformanceFacts, types.PerformanceFacts
+        ](
+            result,
+            lambda x: typing.cast(
+                stream_types.PerformanceFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.PerformanceFacts,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
+    def ExtractSecurityFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.SecurityFacts, types.SecurityFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
+            function_name="ExtractSecurityFacts",
+            args={
+                "input": input,
+            },
+        )
+        return baml_py.BamlStream[stream_types.SecurityFacts, types.SecurityFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.SecurityFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.SecurityFacts,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
+    def ExtractTestResultFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.BamlStream[stream_types.TestResultFacts, types.TestResultFacts]:
+        ctx, result = self.__options.merge_options(baml_options).create_async_stream(
+            function_name="ExtractTestResultFacts",
+            args={
+                "input": input,
+            },
+        )
+        return baml_py.BamlStream[stream_types.TestResultFacts, types.TestResultFacts](
+            result,
+            lambda x: typing.cast(
+                stream_types.TestResultFacts,
+                x.cast_to(types, types, stream_types, True, __runtime__),
+            ),
+            lambda x: typing.cast(
+                types.TestResultFacts,
+                x.cast_to(types, types, stream_types, False, __runtime__),
+            ),
+            ctx,
+        )
+
     def IdentifyEvidenceType(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.BamlStream[types.EvidenceType, types.EvidenceType]:
         ctx, result = self.__options.merge_options(baml_options).create_async_stream(
             function_name="IdentifyEvidenceType",
             args={
-                "img": img,
+                "input": input,
             },
         )
         return baml_py.BamlStream[types.EvidenceType, types.EvidenceType](
@@ -412,7 +669,7 @@ class BamlHttpRequestClient:
 
     async def EvaluateCompliance(
         self,
-        facts: str,
+        facts_list: typing.List[str],
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
@@ -421,7 +678,7 @@ class BamlHttpRequestClient:
         ).create_http_request_async(
             function_name="EvaluateCompliance",
             args={
-                "facts": facts,
+                "facts_list": facts_list,
                 "control": control,
             },
             mode="request",
@@ -430,7 +687,7 @@ class BamlHttpRequestClient:
 
     async def ExtractCIFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -438,7 +695,23 @@ class BamlHttpRequestClient:
         ).create_http_request_async(
             function_name="ExtractCIFacts",
             args={
-                "img": img,
+                "input": input,
+            },
+            mode="request",
+        )
+        return result
+
+    async def ExtractCommitFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractCommitFacts",
+            args={
+                "input": input,
             },
             mode="request",
         )
@@ -462,7 +735,7 @@ class BamlHttpRequestClient:
 
     async def ExtractCoverageFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -470,7 +743,23 @@ class BamlHttpRequestClient:
         ).create_http_request_async(
             function_name="ExtractCoverageFacts",
             args={
-                "img": img,
+                "input": input,
+            },
+            mode="request",
+        )
+        return result
+
+    async def ExtractIssueBoardFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractIssueBoardFacts",
+            args={
+                "input": input,
             },
             mode="request",
         )
@@ -478,7 +767,7 @@ class BamlHttpRequestClient:
 
     async def ExtractPRFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -486,7 +775,55 @@ class BamlHttpRequestClient:
         ).create_http_request_async(
             function_name="ExtractPRFacts",
             args={
-                "img": img,
+                "input": input,
+            },
+            mode="request",
+        )
+        return result
+
+    async def ExtractPerformanceFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractPerformanceFacts",
+            args={
+                "input": input,
+            },
+            mode="request",
+        )
+        return result
+
+    async def ExtractSecurityFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractSecurityFacts",
+            args={
+                "input": input,
+            },
+            mode="request",
+        )
+        return result
+
+    async def ExtractTestResultFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractTestResultFacts",
+            args={
+                "input": input,
             },
             mode="request",
         )
@@ -494,7 +831,7 @@ class BamlHttpRequestClient:
 
     async def IdentifyEvidenceType(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -502,7 +839,7 @@ class BamlHttpRequestClient:
         ).create_http_request_async(
             function_name="IdentifyEvidenceType",
             args={
-                "img": img,
+                "input": input,
             },
             mode="request",
         )
@@ -517,7 +854,7 @@ class BamlHttpStreamRequestClient:
 
     async def EvaluateCompliance(
         self,
-        facts: str,
+        facts_list: typing.List[str],
         control: types.Control,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
@@ -526,7 +863,7 @@ class BamlHttpStreamRequestClient:
         ).create_http_request_async(
             function_name="EvaluateCompliance",
             args={
-                "facts": facts,
+                "facts_list": facts_list,
                 "control": control,
             },
             mode="stream",
@@ -535,7 +872,7 @@ class BamlHttpStreamRequestClient:
 
     async def ExtractCIFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -543,7 +880,23 @@ class BamlHttpStreamRequestClient:
         ).create_http_request_async(
             function_name="ExtractCIFacts",
             args={
-                "img": img,
+                "input": input,
+            },
+            mode="stream",
+        )
+        return result
+
+    async def ExtractCommitFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractCommitFacts",
+            args={
+                "input": input,
             },
             mode="stream",
         )
@@ -567,7 +920,7 @@ class BamlHttpStreamRequestClient:
 
     async def ExtractCoverageFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -575,7 +928,23 @@ class BamlHttpStreamRequestClient:
         ).create_http_request_async(
             function_name="ExtractCoverageFacts",
             args={
-                "img": img,
+                "input": input,
+            },
+            mode="stream",
+        )
+        return result
+
+    async def ExtractIssueBoardFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractIssueBoardFacts",
+            args={
+                "input": input,
             },
             mode="stream",
         )
@@ -583,7 +952,7 @@ class BamlHttpStreamRequestClient:
 
     async def ExtractPRFacts(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -591,7 +960,55 @@ class BamlHttpStreamRequestClient:
         ).create_http_request_async(
             function_name="ExtractPRFacts",
             args={
-                "img": img,
+                "input": input,
+            },
+            mode="stream",
+        )
+        return result
+
+    async def ExtractPerformanceFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractPerformanceFacts",
+            args={
+                "input": input,
+            },
+            mode="stream",
+        )
+        return result
+
+    async def ExtractSecurityFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractSecurityFacts",
+            args={
+                "input": input,
+            },
+            mode="stream",
+        )
+        return result
+
+    async def ExtractTestResultFacts(
+        self,
+        input: types.EvidenceInput,
+        baml_options: BamlCallOptions = {},
+    ) -> baml_py.baml_py.HTTPRequest:
+        result = await self.__options.merge_options(
+            baml_options
+        ).create_http_request_async(
+            function_name="ExtractTestResultFacts",
+            args={
+                "input": input,
             },
             mode="stream",
         )
@@ -599,7 +1016,7 @@ class BamlHttpStreamRequestClient:
 
     async def IdentifyEvidenceType(
         self,
-        img: baml_py.Image,
+        input: types.EvidenceInput,
         baml_options: BamlCallOptions = {},
     ) -> baml_py.baml_py.HTTPRequest:
         result = await self.__options.merge_options(
@@ -607,7 +1024,7 @@ class BamlHttpStreamRequestClient:
         ).create_http_request_async(
             function_name="IdentifyEvidenceType",
             args={
-                "img": img,
+                "input": input,
             },
             mode="stream",
         )

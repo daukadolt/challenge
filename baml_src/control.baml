@@ -45,22 +45,26 @@ class RuleEvaluation {
     status RuleStatus
     reasoning string 
 }
-function EvaluateCompliance(facts: string, control: Control) -> RuleEvaluation[] {
+function EvaluateCompliance(facts_list: string[], control: Control) -> RuleEvaluation[] {
     client "openai/gpt-4o"
     prompt #"
-        You are a Compliance Logic Engine. 
-        Compare the provided FACTS against the RULES to determine compliance.
+        You are an AI Auditor evaluating a set of technical evidence for a Pull Request.
 
-        INPUT CONTEXT (Extracted Facts):
-        {{ facts }}
+        ### The Control Policy
+        {{ control }}
 
-        ---
-        RULES TO CHECK:
-        {% for rule in control.rules %}
-          rule id: {{ rule.id }}
-          logic to evaluate the rule: {{ rule.logic }}
+        ### The Evidence Facts
+        Below is the aggregated data extracted from multiple files.
+
+        {% for fact in facts_list %}
+        --- Evidence Item {{ loop.index }} ---
+        {{ fact }}
         {% endfor %}
-        ---
+
+        ### Instructions
+        1. Evaluate the COMPOSITE state of the evidence. 
+           (e.g. If Evidence 1 proves the PR is 'main', and Evidence 2 proves coverage is '80%', the rule PASSES).
+        2. If a Blocking rule is not satisfied by the combined evidence, mark it FAIL.
 
         {{ ctx.output_format }}
     "#

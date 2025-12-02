@@ -1,17 +1,20 @@
 import base64
 from enum import Enum
 import json
+import mimetypes
 from pathlib import Path
-from baml_py import Image
+from baml_py import Audio, Image, Pdf, Video
 from baml_client import b
 from baml_client.types import (
     Control,
+    EvidenceInput,
     EvidenceType,
     RuleEvaluation,
     RuleStatus,
     RuleType,
 )
 from typing import List, TypedDict, Dict
+import filetype
 
 
 class EvidenceAnalysis(TypedDict):
@@ -32,33 +35,36 @@ class SampleReport(TypedDict):
 
 
 def _reconciliate_rules(
-    sample_dir: Path, evidence_results: List[EvidenceAnalysis], control: Control
+    sample_dir: Path,
+    evaluation_results: List[RuleEvaluation],
+    control: Control,
+    aggregated_facts: List[str],
 ) -> SampleReport:
     output_lines = []
 
-    rule_map: Dict[str, List[RuleEvaluation]] = {}
-    for result in evidence_results:
-        for r in result["result"]:
-            if r.rule_id not in rule_map:
-                rule_map[r.rule_id] = []
-            rule_map[r.rule_id].append(r)
-
+    # Map rule_id to its evaluation
+    rule_eval_map = {r.rule_id: r for r in evaluation_results}
     reconciled: Dict[str, _Status] = {}
-
     rule_defs = {r.id: r for r in control.rules}
 
-    for rule_id, evals in rule_map.items():
-        statuses = {e.status for e in evals}
-        rule_def = rule_defs.get(rule_id)
+    for rule_id, rule_def in rule_defs.items():
+        evaluation = rule_eval_map.get(rule_id)
 
-        if RuleStatus.FAIL in statuses:
-            reconciled[rule_id] = _Status.FAIL
-
-        elif RuleStatus.PASS in statuses:
-            reconciled[rule_id] = _Status.PASS
-
+        if evaluation:
+            if evaluation.status == RuleStatus.FAIL:
+                reconciled[rule_id] = _Status.FAIL
+            elif evaluation.status == RuleStatus.PASS:
+                reconciled[rule_id] = _Status.PASS
+            elif evaluation.status == RuleStatus.MORE_INFOMATION_NEEDED:
+                if rule_def.type == RuleType.Blocking:
+                    reconciled[rule_id] = _Status.MISSING_EVIDENCE
+                else:
+                    reconciled[rule_id] = _Status.NOT_APPLICABLE
+            else:
+                reconciled[rule_id] = _Status.NOT_APPLICABLE
         else:
-            if rule_def and rule_def.type == RuleType.Blocking:
+            # No evaluation returned for this rule
+            if rule_def.type == RuleType.Blocking:
                 reconciled[rule_id] = _Status.MISSING_EVIDENCE
             else:
                 reconciled[rule_id] = _Status.NOT_APPLICABLE
@@ -83,35 +89,35 @@ def _reconciliate_rules(
 
     for rule_id, verdict in reconciled.items():
         r_type = rule_defs[rule_id].type if rule_id in rule_defs else "Unknown"
-        reasons = [
-            e.reasoning for e in rule_map[rule_id] if e.status == RuleStatus.FAIL
-        ]
-        if not reasons and verdict == _Status.PASS:
-            reasons = ["Validated via evidence"]
-        elif verdict == _Status.MISSING_EVIDENCE:
-            reasons = ["Blocking rule applied but no passing evidence found in sample."]
+        evaluation = rule_eval_map.get(rule_id)
+        reason = evaluation.reasoning if evaluation else "No evaluation generated"
 
-        if reasons:
-            reason_short = (
-                (reasons[0][:100] + "...") if len(reasons[0]) > 100 else reasons[0]
-            )
-        else:
-            reason_short = "No Data"
+        if verdict == _Status.MISSING_EVIDENCE and not evaluation:
+            reason = "Blocking rule applied but no passing evidence found in sample."
+
+        reason_short = (reason[:100] + "...") if len(reason) > 100 else reason
 
         output_lines.append(
             f"| {rule_id} | {r_type} | {verdict.name} | {reason_short} |"
         )
 
     output_lines.append("\n## Detailed Evidence Logs")
-    for idx, result in enumerate(evidence_results, 1):
-        output_lines.append(f"\n### Evidence [{idx}]: {result['filename']}")
-        relevant_results = [r.model_dump() for r in result["result"]]
-        if relevant_results:
-            output_lines.append("```json")
-            output_lines.append(json.dumps(relevant_results, indent=2))
-            output_lines.append("```")
-        else:
-            output_lines.append("(No relevant compliance signals found in this file)")
+
+    if aggregated_facts:
+        output_lines.append(f"Total Evidence Items Processed: {len(aggregated_facts)}")
+        for idx, fact_str in enumerate(aggregated_facts, 1):
+            try:
+                fact_json = json.loads(fact_str)
+                source = fact_json.get("_source", "Unknown")
+                output_lines.append(f"\n### Evidence [{idx}]: {source}")
+                output_lines.append("```json")
+                output_lines.append(json.dumps(fact_json, indent=2))
+                output_lines.append("```")
+            except:
+                output_lines.append(f"\n### Evidence [{idx}]")
+                output_lines.append(fact_str)
+    else:
+        output_lines.append("(No evidence extracted from files)")
 
     combined_output = "\n".join(output_lines)
 
@@ -122,39 +128,120 @@ def _reconciliate_rules(
     return {"status": status, "report_text": combined_output}
 
 
+def get_mime_and_category(file_path: Path):
+    """
+    Returns tuple: (mime_type, category_key)
+    category_key is one of: 'image', 'pdf', 'audio', 'video', 'text', or None
+    """
+    kind = filetype.guess(str(file_path))
+
+    if kind:
+        mime = kind.mime
+        if mime == "application/pdf":
+            return mime, "pdf"
+        if mime.startswith("image/"):
+            return mime, "image"
+        if mime.startswith("video/"):
+            return mime, "video"
+        if mime.startswith("audio/"):
+            return mime, "audio"
+
+    mime, _ = mimetypes.guess_type(file_path)
+
+    if mime:
+        if mime.startswith("text/") or mime in ["application/json", "application/xml"]:
+            return mime, "text"
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            f.read(1024)  # Read first 1kb
+        return "text/plain", "text"
+    except UnicodeDecodeError:
+        return None, None
+
+
 def process_sample(sample_dir: Path, control: Control) -> None:
     print(f"Processing {sample_dir}")
-    image_files = sorted(sample_dir.glob("*.png"))
 
-    results: List[EvidenceAnalysis] = []
+    all_files = sorted([f for f in sample_dir.iterdir() if not f.name.startswith(".")])
+    aggregated_facts: List[str] = []
 
-    for image_path in image_files:
+    # Phase 1: Extract from all files
+    for file_path in all_files:
+        if file_path.is_dir():
+            continue
+
+        if file_path.name == "audit_results.md":
+            continue
+
         try:
-            print(f"  Analyzing {image_path.name}...")
-            with open(image_path, "rb") as f:
-                encoded = base64.b64encode(f.read()).decode("utf-8")
+            print(f"  Analyzing {file_path.name}...")
 
-            img = Image.from_base64("image/png", encoded)
-            evidence_type = b.IdentifyEvidenceType(img=img)
+            mime_type, category = get_mime_and_category(file_path)
+            ev_input = EvidenceInput()
 
-            facts_str = ""
-            if evidence_type == EvidenceType.CIPipeline:
-                facts_str = json.dumps(b.ExtractCIFacts(img=img).model_dump())
-            elif evidence_type == EvidenceType.CoverageReport:
-                facts_str = json.dumps(b.ExtractCoverageFacts(img=img).model_dump())
-            elif evidence_type == EvidenceType.PullRequest:
-                facts_str = json.dumps(b.ExtractPRFacts(img=img).model_dump())
+            if category == "image":
+                with open(file_path, "rb") as f:
+                    encoded = base64.b64encode(f.read()).decode("utf-8")
+                ev_input.img = Image.from_base64(mime_type, encoded)
 
-            if facts_str:
-                res = b.EvaluateCompliance(facts_str, control)
-                results.append({"filename": image_path.name, "result": res})
+            elif category == "pdf":
+                with open(file_path, "rb") as f:
+                    encoded = base64.b64encode(f.read()).decode("utf-8")
+                ev_input.pdf_file = Pdf.from_base64(mime_type, encoded)
+
+            elif category == "audio":
+                with open(file_path, "rb") as f:
+                    encoded = base64.b64encode(f.read()).decode("utf-8")
+                ev_input.audio_file = Audio.from_base64(mime_type, encoded)
+
+            elif category == "video":
+                with open(file_path, "rb") as f:
+                    encoded = base64.b64encode(f.read()).decode("utf-8")
+                ev_input.video_file = Video.from_base64(mime_type, encoded)
+
+            elif category == "text":
+                # errors='replace' is safer for logs with weird characters
+                ev_input.text = file_path.read_text(encoding="utf-8", errors="replace")
+
             else:
-                print(
-                    f"    Skipping compliance check for {image_path.name} (Type: {evidence_type})"
-                )
+                print(f"    Skipping unknown file type: {file_path.name}")
+                continue
+
+            evidence_type = b.IdentifyEvidenceType(input=ev_input)
+
+            facts_model = None
+            if evidence_type == EvidenceType.CIPipeline:
+                facts_model = b.ExtractCIFacts(input=ev_input)
+            elif evidence_type == EvidenceType.CoverageReport:
+                facts_model = b.ExtractCoverageFacts(input=ev_input)
+            elif evidence_type == EvidenceType.PullRequest:
+                facts_model = b.ExtractPRFacts(input=ev_input)
+            elif evidence_type == EvidenceType.TestResult:
+                facts_model = b.ExtractTestResultFacts(input=ev_input)
+            elif evidence_type == EvidenceType.SecurityScan:
+                facts_model = b.ExtractSecurityFacts(input=ev_input)
+            elif evidence_type == EvidenceType.IssueBoard:
+                facts_model = b.ExtractIssueBoardFacts(input=ev_input)
+            elif evidence_type == EvidenceType.PerformanceReport:
+                facts_model = b.ExtractPerformanceFacts(input=ev_input)
+            elif evidence_type == EvidenceType.GitCommit:
+                facts_model = b.ExtractCommitFacts(input=ev_input)
+
+            if facts_model:
+                data = facts_model.model_dump()
+                data["_source"] = file_path.name
+                aggregated_facts.append(json.dumps(data))
+            else:
+                print(f"    No extractor for {evidence_type} on {file_path.name}")
 
         except Exception as e:
-            print(f"Error processing {image_path.name}: {e}")
+            print(f"Error processing {file_path.name}: {e}")
 
-    report = _reconciliate_rules(sample_dir, results, control)
-    print(f"Sample Result: {report['status'].name}")
+    # Phase 2: Evaluate Once
+    if aggregated_facts:
+        print("  Evaluating aggregated facts against control policy...")
+        results = b.EvaluateCompliance(aggregated_facts, control)
+        report = _reconciliate_rules(sample_dir, results, control, aggregated_facts)
+        print(f"Sample Result: {report['status'].name}")
+    else:
+        print("  No facts extracted, skipping evaluation.")

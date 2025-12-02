@@ -25,11 +25,17 @@ class TypeBuilder(type_builder.TypeBuilder):
             classes=set(
                 [
                     "CIFacts",
+                    "CommitFacts",
                     "Control",
                     "CoverageFacts",
+                    "EvidenceInput",
+                    "IssueBoardFacts",
                     "PRFacts",
+                    "PerformanceFacts",
                     "Rule",
                     "RuleEvaluation",
+                    "SecurityFacts",
+                    "TestResultFacts",
                 ]
             ),
             enums=set(
@@ -59,12 +65,16 @@ class TypeBuilder(type_builder.TypeBuilder):
         return RuleTypeViewer(self)
 
     # #########################################################################
-    # Generated classes 6
+    # Generated classes 12
     # #########################################################################
 
     @property
     def CIFacts(self) -> "CIFactsViewer":
         return CIFactsViewer(self)
+
+    @property
+    def CommitFacts(self) -> "CommitFactsViewer":
+        return CommitFactsViewer(self)
 
     @property
     def Control(self) -> "ControlViewer":
@@ -75,8 +85,20 @@ class TypeBuilder(type_builder.TypeBuilder):
         return CoverageFactsViewer(self)
 
     @property
+    def EvidenceInput(self) -> "EvidenceInputViewer":
+        return EvidenceInputViewer(self)
+
+    @property
+    def IssueBoardFacts(self) -> "IssueBoardFactsViewer":
+        return IssueBoardFactsViewer(self)
+
+    @property
     def PRFacts(self) -> "PRFactsViewer":
         return PRFactsViewer(self)
+
+    @property
+    def PerformanceFacts(self) -> "PerformanceFactsViewer":
+        return PerformanceFactsViewer(self)
 
     @property
     def Rule(self) -> "RuleViewer":
@@ -85,6 +107,14 @@ class TypeBuilder(type_builder.TypeBuilder):
     @property
     def RuleEvaluation(self) -> "RuleEvaluationViewer":
         return RuleEvaluationViewer(self)
+
+    @property
+    def SecurityFacts(self) -> "SecurityFactsViewer":
+        return SecurityFactsViewer(self)
+
+    @property
+    def TestResultFacts(self) -> "TestResultFactsViewer":
+        return TestResultFactsViewer(self)
 
 
 # #########################################################################
@@ -101,6 +131,11 @@ class EvidenceTypeAst:
                 "PullRequest",
                 "CoverageReport",
                 "CIPipeline",
+                "TestResult",
+                "SecurityScan",
+                "IssueBoard",
+                "PerformanceReport",
+                "GitCommit",
                 "Unknown",
             ]
         )
@@ -143,6 +178,26 @@ class EvidenceTypeValues:
     @property
     def CIPipeline(self) -> type_builder.EnumValueViewer:
         return type_builder.EnumValueViewer(self.__bldr.value("CIPipeline"))
+
+    @property
+    def TestResult(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("TestResult"))
+
+    @property
+    def SecurityScan(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("SecurityScan"))
+
+    @property
+    def IssueBoard(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("IssueBoard"))
+
+    @property
+    def PerformanceReport(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("PerformanceReport"))
+
+    @property
+    def GitCommit(self) -> type_builder.EnumValueViewer:
+        return type_builder.EnumValueViewer(self.__bldr.value("GitCommit"))
 
     @property
     def Unknown(self) -> type_builder.EnumValueViewer:
@@ -254,7 +309,7 @@ class RuleTypeValues:
 
 
 # #########################################################################
-# Generated classes 6
+# Generated classes 12
 # #########################################################################
 
 
@@ -318,6 +373,70 @@ class CIFactsProperties:
     @property
     def has_warnings(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("has_warnings"))
+
+
+class CommitFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("CommitFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "commit_hash",
+                "author_username",
+                "commit_message",
+                "is_verified_signature",
+                "parent_pr_id",
+            ]
+        )
+        self._props = CommitFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "CommitFactsProperties":
+        return self._props
+
+
+class CommitFactsViewer(CommitFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class CommitFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def commit_hash(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("commit_hash"))
+
+    @property
+    def author_username(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("author_username"))
+
+    @property
+    def commit_message(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("commit_message"))
+
+    @property
+    def is_verified_signature(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("is_verified_signature")
+        )
+
+    @property
+    def parent_pr_id(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("parent_pr_id"))
 
 
 class ControlAst:
@@ -447,6 +566,134 @@ class CoverageFactsProperties:
         )
 
 
+class EvidenceInputAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("EvidenceInput")
+        self._properties: typing.Set[str] = set(
+            [
+                "img",
+                "text",
+                "pdf_file",
+                "audio_file",
+                "video_file",
+            ]
+        )
+        self._props = EvidenceInputProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "EvidenceInputProperties":
+        return self._props
+
+
+class EvidenceInputViewer(EvidenceInputAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class EvidenceInputProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def img(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("img"))
+
+    @property
+    def text(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("text"))
+
+    @property
+    def pdf_file(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("pdf_file"))
+
+    @property
+    def audio_file(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("audio_file"))
+
+    @property
+    def video_file(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("video_file"))
+
+
+class IssueBoardFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("IssueBoardFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "board_name",
+                "sprint_name",
+                "visible_columns",
+                "active_ticket_count",
+                "assignees_visible",
+            ]
+        )
+        self._props = IssueBoardFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "IssueBoardFactsProperties":
+        return self._props
+
+
+class IssueBoardFactsViewer(IssueBoardFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class IssueBoardFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def board_name(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("board_name"))
+
+    @property
+    def sprint_name(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("sprint_name"))
+
+    @property
+    def visible_columns(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("visible_columns"))
+
+    @property
+    def active_ticket_count(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("active_ticket_count")
+        )
+
+    @property
+    def assignees_visible(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("assignees_visible")
+        )
+
+
 class PRFactsAst:
     def __init__(self, tb: type_builder.TypeBuilder):
         _tb = tb._tb  # type: ignore (we know how to use this private attribute)
@@ -520,6 +767,81 @@ class PRFactsProperties:
     def status_checks_passing(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(
             self.__bldr.property("status_checks_passing")
+        )
+
+
+class PerformanceFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("PerformanceFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "tool_name",
+                "performance_score",
+                "avg_response_time_ms",
+                "p95_response_time_ms",
+                "throughput_rps",
+                "error_rate_percent",
+            ]
+        )
+        self._props = PerformanceFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "PerformanceFactsProperties":
+        return self._props
+
+
+class PerformanceFactsViewer(PerformanceFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class PerformanceFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def tool_name(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("tool_name"))
+
+    @property
+    def performance_score(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("performance_score")
+        )
+
+    @property
+    def avg_response_time_ms(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("avg_response_time_ms")
+        )
+
+    @property
+    def p95_response_time_ms(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("p95_response_time_ms")
+        )
+
+    @property
+    def throughput_rps(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("throughput_rps"))
+
+    @property
+    def error_rate_percent(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("error_rate_percent")
         )
 
 
@@ -635,3 +957,145 @@ class RuleEvaluationProperties:
     @property
     def reasoning(self) -> type_builder.ClassPropertyViewer:
         return type_builder.ClassPropertyViewer(self.__bldr.property("reasoning"))
+
+
+class SecurityFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("SecurityFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "scanner_name",
+                "severity_counts",
+                "total_vulnerabilities",
+                "top_critical_issues",
+                "is_passing",
+            ]
+        )
+        self._props = SecurityFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "SecurityFactsProperties":
+        return self._props
+
+
+class SecurityFactsViewer(SecurityFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class SecurityFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def scanner_name(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("scanner_name"))
+
+    @property
+    def severity_counts(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("severity_counts"))
+
+    @property
+    def total_vulnerabilities(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("total_vulnerabilities")
+        )
+
+    @property
+    def top_critical_issues(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("top_critical_issues")
+        )
+
+    @property
+    def is_passing(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("is_passing"))
+
+
+class TestResultFactsAst:
+    def __init__(self, tb: type_builder.TypeBuilder):
+        _tb = tb._tb  # type: ignore (we know how to use this private attribute)
+        self._bldr = _tb.class_("TestResultFacts")
+        self._properties: typing.Set[str] = set(
+            [
+                "framework",
+                "total_tests",
+                "passed",
+                "failed",
+                "skipped",
+                "duration_seconds",
+                "failed_test_names",
+            ]
+        )
+        self._props = TestResultFactsProperties(self._bldr, self._properties)
+
+    def type(self) -> baml_py.FieldType:
+        return self._bldr.field()
+
+    @property
+    def props(self) -> "TestResultFactsProperties":
+        return self._props
+
+
+class TestResultFactsViewer(TestResultFactsAst):
+    def __init__(self, tb: type_builder.TypeBuilder):
+        super().__init__(tb)
+
+    def list_properties(
+        self,
+    ) -> typing.List[typing.Tuple[str, type_builder.ClassPropertyViewer]]:
+        return [
+            (name, type_builder.ClassPropertyViewer(self._bldr.property(name)))
+            for name in self._properties
+        ]
+
+
+class TestResultFactsProperties:
+    def __init__(self, bldr: baml_py.ClassBuilder, properties: typing.Set[str]):
+        self.__bldr = bldr
+        self.__properties = properties  # type: ignore (we know how to use this private attribute) # noqa: F821
+
+    @property
+    def framework(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("framework"))
+
+    @property
+    def total_tests(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("total_tests"))
+
+    @property
+    def passed(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("passed"))
+
+    @property
+    def failed(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("failed"))
+
+    @property
+    def skipped(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(self.__bldr.property("skipped"))
+
+    @property
+    def duration_seconds(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("duration_seconds")
+        )
+
+    @property
+    def failed_test_names(self) -> type_builder.ClassPropertyViewer:
+        return type_builder.ClassPropertyViewer(
+            self.__bldr.property("failed_test_names")
+        )

@@ -27,7 +27,7 @@ class StreamState(BaseModel, typing.Generic[StreamStateValueT]):
 
 
 # #########################################################################
-# Generated classes (6)
+# Generated classes (12)
 # #########################################################################
 
 
@@ -37,6 +37,14 @@ class CIFacts(BaseModel):
     stage_statuses: typing.Dict[str, str]
     environment: typing.Optional[str] = None
     has_warnings: typing.Optional[bool] = None
+
+
+class CommitFacts(BaseModel):
+    commit_hash: typing.Optional[str] = None
+    author_username: typing.Optional[str] = None
+    commit_message: typing.Optional[str] = None
+    is_verified_signature: typing.Optional[bool] = None
+    parent_pr_id: typing.Optional[str] = None
 
 
 class Control(BaseModel):
@@ -54,6 +62,22 @@ class CoverageFacts(BaseModel):
     visible_files_tested: typing.List[str]
 
 
+class EvidenceInput(BaseModel):
+    img: typing.Optional[baml_py.Image] = None
+    text: typing.Optional[str] = None
+    pdf_file: typing.Optional[baml_py.Image] = None
+    audio_file: typing.Optional[baml_py.Image] = None
+    video_file: typing.Optional[baml_py.Image] = None
+
+
+class IssueBoardFacts(BaseModel):
+    board_name: typing.Optional[str] = None
+    sprint_name: typing.Optional[str] = None
+    visible_columns: typing.List[str]
+    active_ticket_count: typing.Optional[int] = None
+    assignees_visible: typing.List[str]
+
+
 class PRFacts(BaseModel):
     platform: typing.Optional[str] = None
     pr_number: typing.Optional[str] = None
@@ -62,6 +86,15 @@ class PRFacts(BaseModel):
     status: typing.Optional[str] = None
     base_branch: typing.Optional[str] = None
     status_checks_passing: typing.Optional[bool] = None
+
+
+class PerformanceFacts(BaseModel):
+    tool_name: typing.Optional[str] = None
+    performance_score: typing.Optional[int] = None
+    avg_response_time_ms: typing.Optional[float] = None
+    p95_response_time_ms: typing.Optional[float] = None
+    throughput_rps: typing.Optional[float] = None
+    error_rate_percent: typing.Optional[float] = None
 
 
 class Rule(BaseModel):
@@ -76,6 +109,24 @@ class RuleEvaluation(BaseModel):
     rule_id: typing.Optional[str] = None
     status: typing.Optional[types.RuleStatus] = None
     reasoning: typing.Optional[str] = None
+
+
+class SecurityFacts(BaseModel):
+    scanner_name: typing.Optional[str] = None
+    severity_counts: typing.Dict[str, int]
+    total_vulnerabilities: typing.Optional[int] = None
+    top_critical_issues: typing.List[str]
+    is_passing: typing.Optional[bool] = None
+
+
+class TestResultFacts(BaseModel):
+    framework: typing.Optional[str] = None
+    total_tests: typing.Optional[int] = None
+    passed: typing.Optional[int] = None
+    failed: typing.Optional[int] = None
+    skipped: typing.Optional[int] = None
+    duration_seconds: typing.Optional[float] = None
+    failed_test_names: typing.List[str]
 
 
 # #########################################################################
